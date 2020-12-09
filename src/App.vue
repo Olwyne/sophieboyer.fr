@@ -9,7 +9,6 @@
 </template>
 
 <style>
-@import "@/styles/_variables";
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
