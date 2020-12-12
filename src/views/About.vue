@@ -22,6 +22,7 @@ h1{
   font-size: 80px;
   color: white;
   text-transform: uppercase;
+  margin-top: 100px;
 }
 
 h2{

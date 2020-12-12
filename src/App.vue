@@ -86,8 +86,8 @@ body{
   position: fixed;
   text-align: right;
   right: 0;
-  margin: 10px !important;
-  font-size: 20px;
+  padding: 40px !important;
+  font-size: 16px;
 }
 
 .flag{
