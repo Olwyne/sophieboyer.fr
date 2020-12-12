@@ -1,6 +1,6 @@
 <template>
-  <div class="about">
-    <h1>{{ $t("Title-AboutMe") }}</h1>
+  <div class="contact">
+    <h1>{{ $t("Title-Contact") }}</h1>
   </div>
 </template>
 
@@ -9,7 +9,7 @@
 // import HelloWorld from '@/components/HelloWorld.vue'
 
 export default {
-  name: 'About me',
+  name: 'Contact',
   components: {
   }
 }
