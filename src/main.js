@@ -4,6 +4,9 @@ import router from './router'
 import store from './store'
 import VueI18n from 'vue-i18n'
 
+import { rtdbPlugin } from 'vuefire'
+Vue.use(rtdbPlugin)
+
 Vue.config.productionTip = false
 Vue.use(VueI18n)
 

@@ -42,7 +42,8 @@ body{
   font-size: 100%;
   font: inherit;
   vertical-align: middle;
-  background-image: url("./assets/bg.png"); ;
+  background-image: url("./assets/bg.png") ;
+  background-size: 100% 100%;
   width: 100%;
 }
 
@@ -53,6 +54,7 @@ body{
   text-align: center;
   color: white;
   display: grid;
+  padding-bottom: 100px;
 }
 
 .center-content {
