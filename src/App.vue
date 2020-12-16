@@ -6,7 +6,7 @@
     <div id="nav" v-bind:class="[$route.name==='Home' ? activeClass : 'nav-second', $route.name!=='Home' ? activeClass : 'nav-main', 'nav']" >
       <router-link v-if="$route.name!=='Home'" to="/">{{ $t("Nav-Home") }}</router-link>
       <router-link to="/projects">{{ $t("Nav-Project") }}</router-link>
-      <router-link to="/aboutme">{{ $t("Nav-AboutMe") }}</router-link>
+      <router-link to="/about">{{ $t("Nav-AboutMe") }}</router-link>
       <router-link to="/contact">{{ $t("Nav-Contact") }}</router-link>
       <img class="flag" v-if="$i18n.locale=='fr'" v-on:click="$i18n.locale='en'" alt="fr"  src="@/assets/icons8-etats-unis-96.png">
       <img class="flag" v-if="$i18n.locale=='en'" v-on:click="$i18n.locale='fr'" alt="en"  src="@/assets/icons8-france-96.png">
