@@ -9,7 +9,7 @@
 // import HelloWorld from '@/components/HelloWorld.vue'
 
 export default {
-  name: 'About me',
+  name: 'About',
   components: {
   }
 }

@@ -2,7 +2,7 @@
   <div class="project">
     <h1>{{ $t("Title-Project") }}</h1>
     <div class="items">
-      <router-link class="item" v-for="project in projectsList" :key="project.Name" :to="{ name: 'Project', params: { project: project }, query: { debug: true }}">
+      <router-link class="item" v-for="project in projectsList" :key="project.name" :to="{ name: 'Project', params: { project: project }, query: { debug: true }}">
           <ThumbProject :project="project"></ThumbProject>
       </router-link>
     </div>
@@ -29,8 +29,13 @@ export default {
   },
   methods: {
     mountedProject () {
+      var query
+      if (this.$i18n.locale === 'en') {
+        query = db.ref('en/projects').orderByKey()
+      } else {
+        query = db.ref('fr/projects').orderByKey()
+      }
       const self = this
-      var query = db.ref('Projects').orderByKey()
       query.once('value').then(function (snapshot) {
         snapshot.forEach(function (childSnapshot) {
           self.projectsList.push(childSnapshot.val())

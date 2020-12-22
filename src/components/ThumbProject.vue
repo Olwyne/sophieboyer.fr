@@ -1,8 +1,8 @@
 <template>
     <div class="thumb-project">
       <div class="item">
-        <img class="thumb" alt="thumb" src="@/assets/thumb.jpg" />
-        <p class="thumb-title">{{project.Name}}</p>
+        <img class="thumb" alt="thumb" v-bind:src="image" />
+        <p class="thumb-title">{{project.name}}</p>
       </div>
     </div>
 </template>
@@ -17,13 +17,28 @@ export default {
     project: {
       name: null,
       description: null,
-      date: null
+      date: null,
+      type: null,
+      link: null,
+      images: [],
+      software: null,
+      language: null,
+      job: null
     }
   },
   components: {},
   data () {
     return {
+      image: null
     }
+  },
+  created () {
+    var self = this
+    this.project.images.forEach(function (childSnapshot) {
+      if (childSnapshot.name === 'banner') {
+        self.image = (childSnapshot.url)
+      }
+    })
   }
 }
 </script>

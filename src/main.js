@@ -3,12 +3,15 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import VueI18n from 'vue-i18n'
+import VueSplide from '@splidejs/vue-splide'
 
 import { rtdbPlugin } from 'vuefire'
 Vue.use(rtdbPlugin)
 
 Vue.config.productionTip = false
 Vue.use(VueI18n)
+
+Vue.use(VueSplide)
 
 function loadLocaleMessages () {
   const locales = require.context('./content', true, /[A-Za-z0-9-_,\s]+\.json$/i)
