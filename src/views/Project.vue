@@ -24,9 +24,13 @@
     <div class="other-project" v-if="projectsList.length!==0">
       <h2>{{ $t("Title-OtherProject") }}</h2>
       <div class="items">
-        <router-link class="item" v-for="item in projectsList" :key="item.name"  @click.native="changeProject(item)" :to="{ name: 'Project', params: { project: item }, query: { debug: true }}">
-            <ThumbProject :project="item"></ThumbProject>
-        </router-link>
+          <splide :options="optionsProjects">
+            <splide-slide v-for="item in projectsList" :key="item.name" >
+              <router-link class="item"   @click.native="changeProject(item)" :to="{ name: 'Project', params: { project: item }, query: { debug: true }}">
+                <ThumbProject :project="item"></ThumbProject>
+              </router-link>
+            </splide-slide>
+          </splide>
       </div>
     </div>
   </div>
@@ -34,10 +38,10 @@
 
 <script>
 // @ is an alias to /src
-// import HelloWorld from '@/components/HelloWorld.vue'
 import ThumbProject from '@/components/ThumbProject.vue'
 import { db } from '../config/firebase'
 import '@splidejs/splide/dist/css/themes/splide-default.min.css'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'Project',
@@ -51,41 +55,68 @@ export default {
         type: 'fade',
         rewind: true,
         width: 800,
-        gap: '0.2rem'
+        arrows: true,
+        pagination: true,
+        lazyLoad: 'nearby'
       },
+      optionsProjects: {
+        type: 'loop',
+        rewind: true,
+        width: 800,
+        height: 225,
+        lazyLoad: 'nearby',
+        arrows: true,
+        pagination: true,
+        perPage: 3,
+        perMove: 1,
+        focus: 'center'
+      },
+      item: null,
       project: {
-        name: null,
-        description: null,
         date: null,
-        type: null,
-        link: null,
-        images: null,
-        software: null,
+        description: null,
+        images: [],
+        job: null,
         language: null,
-        job: null
+        link: null,
+        name: null,
+        software: null,
+        type: null
       },
       projectsList: []
     }
   },
+  props: {
+    language: null
+  },
+  watch: {
+  },
   created () {
     this.project = this.$route.params.project
-    if (this.$route.query.debug) {
-      this.debug = this.$route.query.debug
-    }
-    this.project.images = this.project.images.filter(item => item !== 'empty')
+    this.loadProject()
   },
-  mounted: function () {
-    this.mountedProject()
+  computed: {
+    ...mapGetters([
+      'getActiveProject'
+    ])
   },
   methods: {
-    mountedProject () {
-      var self = this
-      var query
-      if (this.$i18n.locale === 'en') {
-        query = db.ref('en/projects').orderByKey()
-      } else {
-        query = db.ref('fr/projects').orderByKey()
+    ...mapActions([
+      'setActiveProject'
+    ]),
+    loadProject () {
+      this.projectsList = []
+      this.project.images = this.project.images.filter(item => item !== 'empty')
+      this.mountedProjects()
+      if (this.project.images.length <= 1) {
+        this.options.arrows = false
+        this.options.pagination = false
       }
+    },
+    mountedProjects () {
+      this.projectsList = []
+      var self = this
+      var query = db.ref(this.language + '/projects').orderByKey()
       query.once('value').then(function (snapshot) {
         snapshot.forEach(function (childSnapshot) {
           if ((childSnapshot.val().type === self.project.type) && childSnapshot.val().name !== self.project.name) {
@@ -96,9 +127,9 @@ export default {
     },
     changeProject (item) {
       this.project = item
+      console.log(this.project)
+      this.loadProject()
       window.scrollTo(0, 0)
-      this.projectsList.pop()
-      this.mountedProject()
     }
   }
 }
@@ -135,6 +166,8 @@ h1 {
   color: white;
   text-transform: uppercase;
   margin : 0;
+  width: 90%;
+  margin: auto;
 }
 
 h2 {

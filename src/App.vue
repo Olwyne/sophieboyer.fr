@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div id="content" v-bind:class="[$route.name!=='Home' ? activeClass : 'center-content','']">
-      <router-view/>
+      <router-view :language="$i18n.locale"></router-view>
     </div>
     <div id="nav" v-bind:class="[$route.name==='Home' ? activeClass : 'nav-second', $route.name!=='Home' ? activeClass : 'nav-main', 'nav']" >
       <router-link v-if="$route.name!=='Home'" to="/">{{ $t("Nav-Home") }}</router-link>

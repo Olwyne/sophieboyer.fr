@@ -2,8 +2,8 @@
   <div class="project">
     <h1>{{ $t("Title-Project") }}</h1>
     <div class="items">
-      <router-link class="item" v-for="project in projectsList" :key="project.name" :to="{ name: 'Project', params: { project: project }, query: { debug: true }}">
-          <ThumbProject :project="project"></ThumbProject>
+      <router-link class="item" v-for="project in projectsList"  :key="project.name"  :to="{ name: 'Project', params: { project: project }, query: { debug: true }}">
+          <ThumbProject @click.native="setActiveProject(project)" :project="project"></ThumbProject>
       </router-link>
     </div>
   </div>
@@ -13,35 +13,49 @@
 // @ is an alias to /src
 import ThumbProject from '@/components/ThumbProject.vue'
 import { db } from '../config/firebase'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'Projects',
   components: {
     ThumbProject
   },
+  props: {
+    language: null
+  },
   data () {
     return {
       projectsList: []
+    }
+  },
+  watch: {
+    language: function (newVal, oldVal) { // watch it
+      this.projectsList = []
+      this.mountedProject()
     }
   },
   mounted: function () {
     this.mountedProject()
   },
   methods: {
+    ...mapActions([
+      'setActiveProject'
+    ]),
     mountedProject () {
-      var query
-      if (this.$i18n.locale === 'en') {
-        query = db.ref('en/projects').orderByKey()
-      } else {
-        query = db.ref('fr/projects').orderByKey()
-      }
+      var query = db.ref(this.language + '/projects').orderByChild('date')
       const self = this
       query.once('value').then(function (snapshot) {
         snapshot.forEach(function (childSnapshot) {
-          self.projectsList.push(childSnapshot.val())
+          self.projectsList.unshift(childSnapshot.val())
         })
       })
+      // db.ref('en/projects').update(self.projectsList)
     }
+  },
+  computed: {
+    ...mapGetters([
+      'getActiveProject'
+    ])
   }
 }
 </script>
@@ -74,7 +88,7 @@ h2 {
 }
 
 .item {
-  width: 40%;
+  width: 30%;
 }
 
 .thumb {
