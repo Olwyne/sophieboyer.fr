@@ -11,6 +11,16 @@
       <img class="flag" v-if="$i18n.locale=='fr'" v-on:click="$i18n.locale='en'" alt="fr"  src="@/assets/icons8-etats-unis-96.png">
       <img class="flag" v-if="$i18n.locale=='en'" v-on:click="$i18n.locale='fr'" alt="en"  src="@/assets/icons8-france-96.png">
     </div>
+      <footer>
+          <ul>
+            <li><a href="https://www.linkedin.com/in/sophie-boyer/">LinkedIn</a></li>
+            <li><a href="https://www.youtube.com/channel/UCBgH8kod4JgnyT9prnlTNVQ/">Youtube</a></li>
+            <li><a href="https://github.com/olwyne">Github</a></li>
+            <li>
+              <p>👋</p>
+            </li>
+          </ul>
+      </footer>
   </div>
 </template>
 
@@ -53,8 +63,9 @@ body{
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: white;
-  display: grid;
-  padding-bottom: 100px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .center-content {
@@ -90,10 +101,73 @@ body{
   right: 0;
   padding: 40px !important;
   font-size: 16px;
+  background-color: rgba(0, 25, 44,0.9);
 }
 
 .flag{
   width: 25px;
   vertical-align: middle;
 }
+
+footer {
+  margin-top : 10px;
+  color: white;
+  background-color: rgba(0, 25, 44,0.5);
+  padding: 18px;
+  display: flex;
+  width: 100%;
+  line-height: 1.3;
+}
+
+footer ul {
+  display: inline-grid;
+  grid-auto-flow: row;
+  grid-gap: 24px;
+  justify-items: center;
+  margin: auto;
+  list-style-type: none;
+}
+
+@media (min-width: 500px) {
+  footer ul {
+    grid-auto-flow: column;
+  }
+}
+
+footer a {
+  color: white;
+  text-decoration: none;
+  box-shadow: inset 0 -1px 0 hsla(0, 0%, 100%, 0.4);
+}
+
+footer p {
+  margin : 0;
+}
+
+footer a:hover {
+  box-shadow: inset 0 -1.2em 0 hsla(0, 0%, 100%, 0.4);
+}
+
+footer li:last-child {
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+}
+
+footer li:hover ~ li p {
+  animation: wave-animation 0.3s infinite;
+}
+
+@keyframes wave-animation {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(20deg);
+  }
+  75% {
+    transform: rotate(-15deg);
+  }
+}
+
 </style>
