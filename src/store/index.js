@@ -5,17 +5,18 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    activeProject: {
-      name: null,
-      description: null,
-      date: null,
-      type: null,
-      link: null,
-      images: [],
-      software: null,
-      language: null,
-      job: null
-    }
+    // activeProject: {
+    //   name: null,
+    //   description: null,
+    //   date: null,
+    //   type: null,
+    //   link: null,
+    //   images: [],
+    //   software: null,
+    //   language: null,
+    //   job: null
+    // }
+    activeProject: null
   },
   mutations: {
     SET_ACTIVE_PROJECT (state, props) {

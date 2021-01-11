@@ -1,17 +1,17 @@
 <template>
   <div id="app">
     <div id="content" v-bind:class="[$route.name!=='Home' ? activeClass : 'center-content','']">
-      <router-view :language="$i18n.locale"></router-view>
+      <router-view :language="$i18n.locale" :idProject="id"></router-view>
     </div>
     <div id="nav" v-bind:class="[$route.name==='Home' ? activeClass : 'nav-second', $route.name!=='Home' ? activeClass : 'nav-main', 'nav']" >
       <router-link v-if="$route.name!=='Home'" to="/">{{ $t("Nav-Home") }}</router-link>
       <router-link to="/projects">{{ $t("Nav-Project") }}</router-link>
       <router-link to="/about">{{ $t("Nav-AboutMe") }}</router-link>
-      <router-link to="/contact">{{ $t("Nav-Contact") }}</router-link>
+      <!-- <router-link to="/contact">{{ $t("Nav-Contact") }}</router-link> -->
       <img class="flag" v-if="$i18n.locale=='fr'" v-on:click="$i18n.locale='en'" alt="fr"  src="@/assets/icons8-etats-unis-96.png">
       <img class="flag" v-if="$i18n.locale=='en'" v-on:click="$i18n.locale='fr'" alt="en"  src="@/assets/icons8-france-96.png">
     </div>
-      <footer>
+      <footer v-bind:class="[$route.name!=='Home' ? activeClass : 'footer-fixed']">
           <ul>
             <li><a href="https://www.linkedin.com/in/sophie-boyer/">LinkedIn</a></li>
             <li><a href="https://www.youtube.com/channel/UCBgH8kod4JgnyT9prnlTNVQ/">Youtube</a></li>
@@ -27,6 +27,7 @@
 <script>
 // @ is an alias to /src
 // import HelloWorld from '@/components/HelloWorld.vue'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: '',
@@ -34,6 +35,25 @@ export default {
   },
   props: {
     activeClass: String
+  },
+  data () {
+    return {
+      id: null
+    }
+  },
+  methods: {
+    ...mapActions([
+      'setActiveProject'
+    ])
+  },
+  computed: {
+    ...mapGetters([
+      'getActiveProject'
+    ])
+  },
+  mounted: function () {
+    this.id = this.getActiveProject
+    console.log(this.id)
   }
 }
 </script>
@@ -117,6 +137,11 @@ footer {
   display: flex;
   width: 100%;
   line-height: 1.3;
+}
+
+.footer-fixed {
+  position : fixed;
+  bottom: 0;
 }
 
 footer ul {

@@ -3,7 +3,7 @@
     <div class="main-project">
       <h1>{{ project.name }}</h1>
       <h2>{{ project.date }} - {{ project.type }}</h2>
-      <splide :options="options">
+      <splide :options="options" v-if="project.images != null">
         <splide-slide v-for="image in project.images" :key="image.name" >
           <img class="thumb" v-bind:src="image.url">
         </splide-slide>
@@ -25,7 +25,7 @@
       <h2>{{ $t("Title-OtherProject") }}</h2>
       <div class="items">
           <splide :options="optionsProjects">
-            <splide-slide v-for="item in projectsList" :key="item.name" >
+            <splide-slide v-for="item in projectsList" :key="item.id" >
               <router-link class="item"   @click.native="changeProject(item)" :to="{ name: 'Project', params: { project: item }, query: { debug: true }}">
                 <ThumbProject :project="item"></ThumbProject>
               </router-link>
@@ -75,7 +75,12 @@ export default {
       project: {
         date: null,
         description: null,
-        images: [],
+        images: [
+          {
+            url: null,
+            name: null
+          }
+        ],
         job: null,
         language: null,
         link: null,
@@ -90,6 +95,9 @@ export default {
     language: null
   },
   watch: {
+    language: function (newVal, oldVal) { // watch it
+      this.loadProject()
+    }
   },
   created () {
     this.project = this.$route.params.project
@@ -105,8 +113,19 @@ export default {
       'setActiveProject'
     ]),
     loadProject () {
-      this.projectsList = []
-      this.project.images = this.project.images.filter(item => item !== 'empty')
+      var self = this
+      var tmp
+      var query = db.ref(self.language + '/projects').orderByKey()
+      query.once('value').then(function (snapshot) {
+        snapshot.forEach(function (childSnapshot) {
+          if (childSnapshot.key === self.getActiveProject) {
+            tmp = childSnapshot.val()
+            tmp.images = tmp.images.filter(item => item !== 'empty')
+            tmp.id = childSnapshot.key
+            self.project = tmp
+          }
+        })
+      })
       this.mountedProjects()
       if (this.project.images.length <= 1) {
         this.options.arrows = false
@@ -116,18 +135,21 @@ export default {
     mountedProjects () {
       this.projectsList = []
       var self = this
+      var tmp
       var query = db.ref(this.language + '/projects').orderByKey()
       query.once('value').then(function (snapshot) {
         snapshot.forEach(function (childSnapshot) {
-          if ((childSnapshot.val().type === self.project.type) && childSnapshot.val().name !== self.project.name) {
-            self.projectsList.push(childSnapshot.val())
+          if ((childSnapshot.val().type === self.project.type) && (childSnapshot.key !== self.project.id)) {
+            tmp = childSnapshot.val()
+            tmp.id = childSnapshot.key
+            self.projectsList.push(tmp)
           }
         })
       })
     },
     changeProject (item) {
-      this.project = item
-      console.log(this.project)
+      this.setActiveProject(item.id)
+      console.log(this.getActiveProject)
       this.loadProject()
       window.scrollTo(0, 0)
     }

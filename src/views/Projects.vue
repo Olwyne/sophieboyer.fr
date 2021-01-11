@@ -10,7 +10,7 @@
     </div>
     <div class="items">
       <router-link class="item" v-for="project in projectsList"  :key="project.name"  :to="{ name: 'Project', params: { project: project }, query: { debug: true }}">
-          <ThumbProject @click.native="setActiveProject(project)" :project="project"></ThumbProject>
+          <ThumbProject @click.native="setActiveProject(project.id)" :project="project"></ThumbProject>
       </router-link>
     </div>
   </div>
@@ -52,12 +52,16 @@ export default {
     mountedProject () {
       var query = db.ref(this.language + '/projects').orderByChild('date')
       const self = this
+      var project
       query.once('value').then(function (snapshot) {
         snapshot.forEach(function (childSnapshot) {
-          self.backupProject.unshift(childSnapshot.val())
+          project = childSnapshot.val()
+          project.id = childSnapshot.key
+          self.backupProject.unshift(project)
         })
       })
       this.filterProjects('all')
+      console.log(this.backupProject)
       // db.ref('en/projects').update(self.projectsList)
     },
     filterProjects (value) {
