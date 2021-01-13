@@ -61,7 +61,6 @@ export default {
         })
       })
       this.filterProjects('all')
-      console.log(this.backupProject)
       // db.ref('en/projects').update(self.projectsList)
     },
     filterProjects (value) {
@@ -185,4 +184,11 @@ h2 {
 .btn:focus {
   outline: 2px dotted #635A7E;
 }
+
+@media only screen and (max-width: 500px) {
+  .item {
+    width: 90% !important;
+  }
+}
+
 </style>

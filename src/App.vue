@@ -1,26 +1,35 @@
 <template>
-  <div id="app">
+  <div id="app" v-bind:class="[$route.name!=='Home' ? activeClass : 'reverse', '']">
+    <header class="header" v-bind:class="[$route.name==='Home' ? activeClass : 'nav-second', $route.name!=='Home' ? activeClass : 'nav-main', 'nav']">
+      <input class="menu-btn" type="checkbox" id="menu-btn" />
+      <label class="menu-icon" v-bind:class="[$route.name!=='Home' ? activeClass : 'icon-none','']" for="menu-btn"><span class="navicon"></span></label>
+      <ul class="menu">
+        <li><router-link v-if="$route.name!=='Home'" to="/">{{ $t("Nav-Home") }}</router-link></li>
+        <li> <router-link to="/projects">{{ $t("Nav-Project") }}</router-link></li>
+        <li><router-link to="/about">{{ $t("Nav-AboutMe") }}</router-link></li>
+        <!-- <li><router-link to="/contact">{{ $t("Nav-Contact") }}</router-link></li> -->
+        <li><img class="flag" v-if="$i18n.locale=='fr'" v-on:click="$i18n.locale='en'" alt="fr"  src="@/assets/icons8-etats-unis-96.png"></li>
+        <li> <img class="flag" v-if="$i18n.locale=='en'" v-on:click="$i18n.locale='fr'" alt="en"  src="@/assets/icons8-france-96.png"></li>
+      </ul>
+    </header>
     <div id="content" v-bind:class="[$route.name!=='Home' ? activeClass : 'center-content','']">
       <router-view :language="$i18n.locale" :idProject="id"></router-view>
     </div>
-    <div id="nav" v-bind:class="[$route.name==='Home' ? activeClass : 'nav-second', $route.name!=='Home' ? activeClass : 'nav-main', 'nav']" >
-      <router-link v-if="$route.name!=='Home'" to="/">{{ $t("Nav-Home") }}</router-link>
-      <router-link to="/projects">{{ $t("Nav-Project") }}</router-link>
-      <router-link to="/about">{{ $t("Nav-AboutMe") }}</router-link>
-      <!-- <router-link to="/contact">{{ $t("Nav-Contact") }}</router-link> -->
-      <img class="flag" v-if="$i18n.locale=='fr'" v-on:click="$i18n.locale='en'" alt="fr"  src="@/assets/icons8-etats-unis-96.png">
-      <img class="flag" v-if="$i18n.locale=='en'" v-on:click="$i18n.locale='fr'" alt="en"  src="@/assets/icons8-france-96.png">
+    <div class="btn-bg bg-1" v-if="$route.name!=='Home' && isUserScrolling"  v-on:click="goTop()">
+      <div class="btn btn-1">
+        <span>↑</span>
+      </div>
     </div>
-      <footer v-bind:class="[$route.name!=='Home' ? activeClass : 'footer-fixed']">
-          <ul>
-            <li><a href="https://www.linkedin.com/in/sophie-boyer/">LinkedIn</a></li>
-            <li><a href="https://www.youtube.com/channel/UCBgH8kod4JgnyT9prnlTNVQ/">Youtube</a></li>
-            <li><a href="https://github.com/olwyne">Github</a></li>
-            <li>
-              <p>👋</p>
-            </li>
-          </ul>
-      </footer>
+    <footer v-bind:class="[$route.name!=='Home' ? activeClass : 'footer-fixed']">
+        <ul>
+          <li><a href="https://www.linkedin.com/in/sophie-boyer/">LinkedIn</a></li>
+          <li><a href="https://www.youtube.com/channel/UCBgH8kod4JgnyT9prnlTNVQ/">Youtube</a></li>
+          <li><a href="https://github.com/olwyne">Github</a></li>
+          <li>
+            <p>👋</p>
+          </li>
+        </ul>
+    </footer>
   </div>
 </template>
 
@@ -38,13 +47,30 @@ export default {
   },
   data () {
     return {
-      id: null
+      id: null,
+      isUserScrolling: false
     }
+  },
+  created () {
+    window.addEventListener('scroll', this.handleScroll)
+  },
+  destroyed () {
+    window.removeEventListener('scroll', this.handleScroll)
   },
   methods: {
     ...mapActions([
       'setActiveProject'
-    ])
+    ]),
+    goTop () {
+      window.scrollTo(0, 0)
+    },
+    handleScroll (event) {
+      if (window.scrollY > 0) {
+        this.isUserScrolling = true
+      } else {
+        this.isUserScrolling = false
+      }
+    }
   },
   computed: {
     ...mapGetters([
@@ -53,7 +79,6 @@ export default {
   },
   mounted: function () {
     this.id = this.getActiveProject
-    console.log(this.id)
   }
 }
 </script>
@@ -88,10 +113,14 @@ body{
   min-height: 100vh;
 }
 
+.reverse{
+  flex-direction: column-reverse !important;
+}
+
 .center-content {
   width:100%;
   margin-top: 50vh; /* poussé de la moitié de hauteur de viewport */
-  transform: translateY(-70%); /* tiré de la moitié de sa propre hauteur */
+  transform: translateY(-120%); /* tiré de la moitié de sa propre hauteur */
 }
 
 .nav {
@@ -104,11 +133,11 @@ body{
   text-transform: uppercase;
   text-decoration : none;
   color: white;
-  margin : 30px;
 }
 
 .nav-main {
   font-size: 25px;
+  transform: translateY(-300%);
 }
 
 .nav a.router-link-exact-active {
@@ -119,7 +148,6 @@ body{
   position: fixed;
   text-align: right;
   right: 0;
-  padding: 40px !important;
   font-size: 16px;
   background-color: rgba(0, 25, 44,0.9);
 }
@@ -153,9 +181,45 @@ footer ul {
   list-style-type: none;
 }
 
-@media (min-width: 500px) {
+@media only screen and (min-width: 501px) {
+ /* Appareils avec une résolution au-dessus de 500px */
   footer ul {
     grid-auto-flow: column;
+  }
+}
+@media only screen and (max-width: 500px) {
+ /* Appareils avec une résolution de 500 pixels ou moins */
+ footer ul {
+    grid-auto-flow: column;
+    margin: 0;
+  }
+  .nav-main{
+    position: relative;
+  }
+  .nav-main a {
+    margin: 20px;
+  }
+
+  .nav-main .menu-icon {
+    display : none;
+  }
+
+  .nav-main .menu {
+    max-height: 100% !important;
+  }
+  .header {
+    width: 100% !important;
+    text-align: center;
+  }
+  #app {
+    position: relative;
+    display: inline-flex;
+  }
+  .reverse{
+    margin-top: 50%;
+  }
+  .icon-none {
+    display : none !important;
   }
 }
 
@@ -195,4 +259,156 @@ footer li:hover ~ li p {
   }
 }
 
+.header {
+  width: 100%;
+  z-index: 3;
+}
+
+.header ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow: hidden;
+}
+
+.header li {
+  display: block;
+  margin: 20px 20px;
+  text-decoration: none;
+}
+
+.header .menu-btn:hover {
+  background-color: black;
+}
+
+/* menu */
+
+.header .menu {
+  clear: both;
+  max-height: 0;
+  transition: max-height .2s ease-out;
+}
+
+/* menu icon */
+
+.header .menu-icon {
+  cursor: pointer;
+  display: inline-block;
+  padding: 28px 20px;
+  position: relative;
+  user-select: none;
+}
+
+.header .menu-icon .navicon {
+  background: white;
+  display: block;
+  height: 5px;
+  position: relative;
+  transition: background .2s ease-out;
+  width: 30px;
+}
+
+.header .menu-icon .navicon:before,
+.header .menu-icon .navicon:after {
+  background: white;
+  content: '';
+  display: block;
+  height: 100%;
+  position: absolute;
+  transition: all .2s ease-out;
+  width: 100%;
+}
+
+.header .menu-icon .navicon:before {
+  top: 10px;
+}
+
+.header .menu-icon .navicon:after {
+  top: -10px;
+}
+
+/* menu btn */
+
+.header .menu-btn {
+  display: none;
+}
+
+.header .menu-btn:checked ~ .menu {
+  max-height: 100%;
+}
+
+.header .menu-btn:checked ~ .menu-icon .navicon {
+  background: transparent;
+}
+
+.header .menu-btn:checked ~ .menu-icon .navicon:before {
+  transform: rotate(-45deg);
+}
+
+.header .menu-btn:checked ~ .menu-icon .navicon:after {
+  transform: rotate(45deg);
+}
+
+.header .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:before,
+.header .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:after {
+  top: 0;
+}
+
+/* 48em = 768px */
+
+@media (min-width: 48em) {
+  .header li {
+    float: left;
+  }
+  .header li a {
+    padding: 20px 30px;
+  }
+  .header .menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-height: none;
+  }
+  .header .menu-icon {
+    display: none;
+  }
+
+}
+
+.btn-bg.bg-1 .btn-1 span {
+  color: black;
+  background: #6ab1c9;
+  border: 3px solid #c7f8f9;
+  border-radius: 50px;
+  font-size: 25px;
+  padding: 0 10px 5px 10px;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  -webkit-transform: translate(0, 0);
+  transform: translate(0, 0);
+  position: fixed;
+  right: 5%;
+  bottom: 5%;
+  z-index :10
+}
+ .btn-bg.bg-1 .btn-1 span a {
+  color: black;
+}
+ .btn-bg.bg-1 .btn-1 span:hover {
+  background: #c7f8f9;
+  color: black;
+  border: 3px solid #6ab1c9;
+  border-radius: 50px;
+  -webkit-transition: all 0.35s ease;
+  transition: all 0.35s ease;
+}
+ .btn-bg.bg-1 .btn-1 span:hover >a {
+  color: #6ab1c9;
+  -webkit-transition: all 0.35s ease;
+  transition: all 0.35s ease;
+}
+ .btn-bg.bg-1 .btn-1 span:active {
+  -webkit-transform: translate(5px, 5px);
+  transform: translate(5px, 5px);
+}
 </style>

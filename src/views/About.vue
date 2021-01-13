@@ -114,4 +114,18 @@ h2{
 .column{
   width: 40%;
 }
+
+@media only screen and (max-width: 500px) {
+  .text{
+    width: 90%;
+    font-size: 20px;
+  }
+
+  .container{
+    display: block !important;
+  }
+  .column{
+    width: 100% !important;
+  }
+}
 </style>

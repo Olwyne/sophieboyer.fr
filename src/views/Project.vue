@@ -127,6 +127,7 @@ export default {
         })
       })
       this.mountedProjects()
+      this.project.images = this.project.images.filter(item => item !== 'empty')
       if (this.project.images.length <= 1) {
         this.options.arrows = false
         this.options.pagination = false
@@ -141,6 +142,7 @@ export default {
         snapshot.forEach(function (childSnapshot) {
           if ((childSnapshot.val().type === self.project.type) && (childSnapshot.key !== self.project.id)) {
             tmp = childSnapshot.val()
+            tmp.images = tmp.images.filter(item => item !== 'empty')
             tmp.id = childSnapshot.key
             self.projectsList.push(tmp)
           }
@@ -149,7 +151,6 @@ export default {
     },
     changeProject (item) {
       this.setActiveProject(item.id)
-      console.log(this.getActiveProject)
       this.loadProject()
       window.scrollTo(0, 0)
     }
@@ -239,4 +240,12 @@ h2 {
 .splide {
   margin: auto;
 }
+
+@media only screen and (max-width: 500px) {
+  .container-about {
+    display: block;
+    font-size: 20px;
+  }
+}
+
 </style>
