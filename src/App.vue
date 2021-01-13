@@ -1,6 +1,5 @@
 <template>
   <div id="app" v-bind:class="[$route.name!=='Home' ? activeClass : 'reverse', '']">
-    <Background />
     <header class="header" v-bind:class="[$route.name==='Home' ? activeClass : 'nav-second', $route.name!=='Home' ? activeClass : 'nav-main', 'nav']">
       <input class="menu-btn" type="checkbox" id="menu-btn" />
       <label class="menu-icon" v-bind:class="[$route.name!=='Home' ? activeClass : 'icon-none','']" for="menu-btn"><span class="navicon"></span></label>
@@ -21,7 +20,7 @@
         <span>↑</span>
       </div>
     </div>
-    <footer v-bind:class="[$route.name!=='Home' ? activeClass : 'footer-fixed']">
+    <footer v-if="$route.name!=='Home'" v-bind:class="[$route.name!=='Home' ? activeClass : 'footer-fixed']">
         <ul>
           <li><a href="https://www.linkedin.com/in/sophie-boyer/">LinkedIn</a></li>
           <li><a href="https://www.youtube.com/channel/UCBgH8kod4JgnyT9prnlTNVQ/">Youtube</a></li>
@@ -37,13 +36,12 @@
 <script>
 // @ is an alias to /src
 // import HelloWorld from '@/components/HelloWorld.vue'
-import Background from '@/components/Background.vue'
 import { mapActions, mapGetters } from 'vuex'
+import init from './assets/index'
 
 export default {
   name: '',
   components: {
-    Background
   },
   props: {
     activeClass: String
@@ -56,6 +54,7 @@ export default {
   },
   created () {
     window.addEventListener('scroll', this.handleScroll)
+    init()
   },
   destroyed () {
     window.removeEventListener('scroll', this.handleScroll)
@@ -112,12 +111,15 @@ body{
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
+}
+
+canvas {
+  position: fixed;
+  top:0;
+  left:0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
 }
 
 .reverse{
@@ -167,7 +169,7 @@ body{
 footer {
   margin-top : 10px;
   color: white;
-  background-color: rgba(0, 25, 44,0.5);
+  background-color: rgba(99, 90, 126,0.8);
   padding: 18px;
   display: flex;
   width: 100%;

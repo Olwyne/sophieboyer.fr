@@ -1,51 +1,61 @@
-import { Scene, PerspectiveCamera, WebGLRenderer, AmbientLight, SpotLight, Clock } from 'three'
-import MagicalObject from './MagicalObject'
+import { Scene, Points, PerspectiveCamera, Vector3, WebGLRenderer, Geometry, TextureLoader, PointsMaterial } from 'three'
+let scene, camera, renderer, stars, starGeo, star
 
-export default class Webgl {
-  constructor () {
-    this.start = this.start.bind(this)
-    this.onResize = this.onResize.bind(this)
+export default function init () {
+  scene = new Scene()
 
-    this.scene = new Scene()
-    this.camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
-    // this.camera = new OrthographicCamera( window.innerWidth / - 2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / - 2, 1, 10000 );
-    this.renderer = new WebGLRenderer({
-      powerPreference: 'high-performance',
-      antialias: false,
-      stencil: false,
-      depth: false
-    })
-    this.renderer.setSize(window.innerWidth, window.innerHeight)
-    document.body.appendChild(this.renderer.domElement)
+  camera = new PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000)
+  camera.position.z = 1
+  camera.rotation.x = Math.PI / 2
 
-    this.light = new AmbientLight(0x404040, 2) // soft white light
-    this.scene.add(this.light)
-    this.spotlight = new SpotLight(0xffffff)
-    this.spotlight.position.set(10, 10, -10)
-    this.scene.add(this.spotlight)
-    this.cube = new MagicalObject()
-    this.scene.add(this.cube)
+  renderer = new WebGLRenderer()
+  renderer.setSize(window.innerWidth, window.innerHeight)
+  document.body.appendChild(renderer.domElement)
 
-    this.scene.add(this.sky)
-
-    this.camera.position.z = 5
-    this.time = 0
-    window.addEventListener('resize', this.onResize)
-    this.clock = new Clock()
+  starGeo = new Geometry()
+  for (let i = 0; i < 6000; i++) {
+    star = new Vector3(
+      Math.random() * 600 - 300,
+      Math.random() * 600 - 300,
+      Math.random() * 600 - 300
+    )
+    star.velocity = 0
+    star.acceleration = 0.001
+    starGeo.vertices.push(star)
   }
 
-  onResize () {
-    this.camera.aspect = window.innerWidth / window.innerHeight
-    this.camera.updateProjectionMatrix()
-    this.renderer.setSize(window.innerWidth, window.innerHeight)
-  }
+  const sprite = new TextureLoader().load('/star.png')
+  const starMaterial = new PointsMaterial({
+    color: 0xaaaaaa,
+    size: 0.2,
+    map: sprite
+  })
 
-  start () {
-    requestAnimationFrame(this.start)
-    this.time += 0.01
+  stars = new Points(starGeo, starMaterial)
+  scene.add(stars)
 
-    this.cube.update()
+  window.addEventListener('resize', onWindowResize, false)
 
-    this.renderer.render(this.scene, this.camera)
-  }
+  animate()
+}
+function onWindowResize () {
+  camera.aspect = window.innerWidth / window.innerHeight
+  camera.updateProjectionMatrix()
+  renderer.setSize(window.innerWidth, window.innerHeight)
+}
+
+function animate () {
+  starGeo.vertices.forEach(p => {
+    p.velocity += p.acceleration
+    p.y -= p.velocity
+    if (p.y < -200) {
+      p.y = 200
+      p.velocity = 0
+    }
+  })
+  starGeo.verticesNeedUpdate = true
+  stars.rotation.y += 0.002
+
+  renderer.render(scene, camera)
+  requestAnimationFrame(animate)
 }

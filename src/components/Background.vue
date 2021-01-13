@@ -1,11 +1,10 @@
 <template>
   <div class="background">
-    <canvas id="canvas-bg"></canvas>
   </div>
 </template>
 
 <script>
-import Webgl from '../assets/index'
+import init from '../assets/index'
 
 export default {
   name: 'Background',
@@ -13,8 +12,7 @@ export default {
     msg: String
   },
   created: function () {
-    var webgl = new Webgl()
-    webgl.start()
+    init()
   }
 }
 
@@ -22,5 +20,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+canvas {
+  position: absolute;
+  top:0;
+  left:0;
+  z-index: -1;
+}
 </style>
