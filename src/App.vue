@@ -1,5 +1,6 @@
 <template>
   <div id="app" v-bind:class="[$route.name!=='Home' ? activeClass : 'reverse', '']">
+    <Background />
     <header class="header" v-bind:class="[$route.name==='Home' ? activeClass : 'nav-second', $route.name!=='Home' ? activeClass : 'nav-main', 'nav']">
       <input class="menu-btn" type="checkbox" id="menu-btn" />
       <label class="menu-icon" v-bind:class="[$route.name!=='Home' ? activeClass : 'icon-none','']" for="menu-btn"><span class="navicon"></span></label>
@@ -36,11 +37,13 @@
 <script>
 // @ is an alias to /src
 // import HelloWorld from '@/components/HelloWorld.vue'
+import Background from '@/components/Background.vue'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: '',
   components: {
+    Background
   },
   props: {
     activeClass: String
@@ -97,8 +100,6 @@ body{
   font-size: 100%;
   font: inherit;
   vertical-align: middle;
-  background-image: url("./assets/bg.png") ;
-  background-size: 100% 100%;
   width: 100%;
 }
 
@@ -111,6 +112,12 @@ body{
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 }
 
 .reverse{
