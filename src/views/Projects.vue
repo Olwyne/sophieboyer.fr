@@ -162,7 +162,7 @@ h2 {
 }
 
 .items {
-  width: 50%;
+  width: 80%;
   margin: auto;
   display: flex;
   position: relative;
@@ -177,7 +177,8 @@ h2 {
 }
 
 .item {
-  width: 50%;
+  width: 40%;
+  margin: 25px;
 }
 
 .thumb {
@@ -252,7 +253,7 @@ h2 {
   margin: 10px;
 }
 .btn:focus {
-  outline: 2px dotted #635A7E;
+  color:white;
 }
 
 @media only screen and (max-width: 500px) {
