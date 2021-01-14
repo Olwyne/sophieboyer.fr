@@ -65,29 +65,19 @@ export default {
     text-align: center;
     font-size: 0.8em;
 }
-.image > div::after {
-    content: '';
-    width: 100%;
-    height: 0;
-    border-bottom: 1px solid #232b50;
-    position: absolute;
-    top: 2.75em;
-    left: 2.5em;
-    z-index: -1;
-}
 
 img {
     border-radius: 50%;
     height: 5em;
-    border: 0.35em solid #232b50;
-    background: #232b50;
+    border: 0.35em solid rgb(99, 90, 126);
+    background: rgb(99, 90, 126);
 }
 span {
     display: block;
     clear: both;
     padding: 0.25em 0;
     margin: 0.5em 0;
-    background: #3b4262;
+    background: rgb(99, 90, 126);
 }
 
 .details {
@@ -95,9 +85,9 @@ position: relative;
 flex-grow: 1;
 }
 .details > div {
-    border: 1px solid #232b50;
-    color :#232b50;
-    background: rgba(255,255,255,0.5);
+    border: 1px solid rgb(99, 90, 126);
+    color :rgb(99, 90, 126);
+    background: rgba(0,0,0,0.8);
     border-radius: 0.5em;
     padding: 1.5em;
     margin: 1em 0;
@@ -115,17 +105,6 @@ flex-grow: 1;
     margin: 0;
     padding: 0;
     line-height: 150%;
-}
-
-.details::before {
-    content: '';
-    width: 0;
-    height: 100%;
-    border-left: 1px solid #232b50;
-    position: absolute;
-    top: 0;
-    left: -4.35em;
-    z-index: -1;
 }
 
 .italic {

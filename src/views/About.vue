@@ -1,9 +1,9 @@
 <template>
   <div class="about">
     <h1>{{ $t("Title-AboutMe") }}</h1>
-    <p class="text">
+    <!-- <p class="text">
       {{ $t("About-text") }}
-    </p>
+    </p> -->
     <div class="container">
      <TimeLine :experiencesList="experiencesList" :title="$t('About-experience')" class="column"></TimeLine>
      <TimeLine :experiencesList="educationsList" :title="$t('About-education')" class="column"></TimeLine>

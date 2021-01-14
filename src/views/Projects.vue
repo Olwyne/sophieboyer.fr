@@ -97,7 +97,8 @@ h2 {
 }
 
 .items {
-  width: 100%;
+  width: 50%;
+  margin: auto;
   display: flex;
   position: relative;
   height: auto;
@@ -106,8 +107,12 @@ h2 {
   justify-content: center;
 }
 
+.menu {
+  margin-bottom : 25px;
+}
+
 .item {
-  width: 30%;
+  width: 50%;
 }
 
 .thumb {

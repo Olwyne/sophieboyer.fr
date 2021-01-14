@@ -4,12 +4,12 @@
       <input class="menu-btn" type="checkbox" id="menu-btn" />
       <label class="menu-icon" v-bind:class="[$route.name!=='Home' ? activeClass : 'icon-none','']" for="menu-btn"><span class="navicon"></span></label>
       <ul class="menu">
-        <li><router-link v-if="$route.name!=='Home'" to="/">{{ $t("Nav-Home") }}</router-link></li>
-        <li> <router-link to="/projects">{{ $t("Nav-Project") }}</router-link></li>
-        <li><router-link to="/about">{{ $t("Nav-AboutMe") }}</router-link></li>
+        <li v-on:click="transitionPage"><router-link v-if="$route.name!=='Home'" to="/">{{ $t("Nav-Home") }}</router-link></li>
+        <li v-on:click="transitionPage"> <router-link  to="/projects">{{ $t("Nav-Project") }}</router-link></li>
+        <li v-on:click="transitionPage"><router-link  to="/about">{{ $t("Nav-AboutMe") }}</router-link></li>
         <!-- <li><router-link to="/contact">{{ $t("Nav-Contact") }}</router-link></li> -->
-        <li><img class="flag" v-if="$i18n.locale=='fr'" v-on:click="$i18n.locale='en'" alt="fr"  src="@/assets/icons8-etats-unis-96.png"></li>
-        <li> <img class="flag" v-if="$i18n.locale=='en'" v-on:click="$i18n.locale='fr'" alt="en"  src="@/assets/icons8-france-96.png"></li>
+        <li><img class="flag"  v-if="$i18n.locale=='fr'" v-on:click="$i18n.locale='en'" alt="fr"  src="@/assets/icons8-etats-unis-96.png"></li>
+        <li> <img class="flag"  v-if="$i18n.locale=='en'" v-on:click="$i18n.locale='fr'" alt="en"  src="@/assets/icons8-france-96.png"></li>
       </ul>
     </header>
     <div id="content" v-bind:class="[$route.name!=='Home' ? activeClass : 'center-content','']">
@@ -30,6 +30,8 @@
           </li>
         </ul>
     </footer>
+    <div id="cache-haut"></div>
+    <div id="cache-bas"></div>
   </div>
 </template>
 
@@ -38,6 +40,7 @@
 // import HelloWorld from '@/components/HelloWorld.vue'
 import { mapActions, mapGetters } from 'vuex'
 import init from './assets/index'
+import anime from 'animejs/lib/anime.es.js'
 
 export default {
   name: '',
@@ -72,6 +75,92 @@ export default {
       } else {
         this.isUserScrolling = false
       }
+    },
+    enterElement (el, done) {
+      anime({
+        targets: '.menu',
+        opacity: ['0%', '100%'],
+        easing: 'easeInOutQuad',
+        delay: 1500
+      })
+      anime({
+        targets: '#cache-bas',
+        easing: 'easeInOutSine',
+        translateY: [0, '50vh'],
+        duration: 1000,
+        delay: 500
+      })
+      anime({
+        targets: '#cache-haut',
+        easing: 'easeInOutSine',
+        translateY: [0, '-50vh'],
+        duration: 1000,
+        delay: 500
+      })
+    },
+    transitionPage (el, done) {
+      // anime.timeline({ loop: false }).add({
+      //   targets: '#content',
+      //   opacity: [1, 0],
+      //   easing: 'easeInOutQuad',
+      //   duration: 1000
+      // }).add({
+      //   targets: '#content',
+      //   opacity: [0, 1],
+      //   easing: 'easeInOutQuad',
+      //   duration: 500,
+      //   delay: 1000
+      // })
+      // anime.timeline({ loop: false }).add({
+      //   targets: 'footer',
+      //   opacity: [1, 0],
+      //   easing: 'easeInOutQuad',
+      //   duration: 1000
+      // }).add({
+      //   targets: 'footer',
+      //   opacity: [0, 1],
+      //   easing: 'easeInOutQuad',
+      //   duration: 500,
+      //   delay: 1000
+      // })
+      // anime.timeline({ loop: false }).add({
+      //   targets: 'header',
+      //   opacity: [1, 0],
+      //   easing: 'easeInOutQuad',
+      //   duration: 1000
+      // }).add({
+      //   targets: 'header',
+      //   opacity: [0, 1],
+      //   easing: 'easeInOutQuad',
+      //   duration: 500,
+      //   delay: 1000
+      // })
+      anime.timeline({ loop: false }).add({
+        targets: '#cache-bas',
+        easing: 'easeInOutSine',
+        translateY: ['50vh', 0],
+        duration: 500,
+        delay: 100
+      }).add({
+        targets: '#cache-bas',
+        easing: 'easeInOutSine',
+        translateY: [0, '50vh'],
+        duration: 1000,
+        delay: 600
+      })
+      anime.timeline({ loop: false }).add({
+        targets: '#cache-haut',
+        easing: 'easeInOutSine',
+        translateY: ['-50vh', 0],
+        duration: 500,
+        delay: 100
+      }).add({
+        targets: '#cache-haut',
+        easing: 'easeInOutSine',
+        translateY: [0, '-50vh'],
+        duration: 500,
+        delay: 600
+      })
     }
   },
   computed: {
@@ -81,12 +170,31 @@ export default {
   },
   mounted: function () {
     this.id = this.getActiveProject
+    this.enterElement()
   }
 }
 </script>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+#cache-haut{
+  width: 100%;
+  height: 50vh;
+  background: black;
+  position: fixed;
+  top: 0vh;
+  z-index: 15;
+}
+
+#cache-bas{
+  width: 100%;
+  height: 50vh;
+  background: black;
+  position: fixed;
+  top: 50vh;
+  z-index: 15;
+}
 
 html {
   height: 100%;
@@ -117,7 +225,7 @@ canvas {
   position: fixed;
   top:0;
   left:0;
-  z-index: -1;
+  z-index: -10;
   width: 100%;
   height: 100%;
 }
@@ -150,7 +258,15 @@ canvas {
 }
 
 .nav a.router-link-exact-active {
-  color: rgb(147, 89, 180);
+  color: rgb(99, 90, 126);
+  font-weight: 300;
+  border-bottom: 2px solid rgb(99, 90, 126);
+}
+
+.nav-main a:hover {
+  color: rgb(99, 90, 126);
+  font-weight: 300;
+  border-bottom: 2px solid rgb(99, 90, 126);
 }
 
 .nav-second {
@@ -158,7 +274,7 @@ canvas {
   text-align: right;
   right: 0;
   font-size: 16px;
-  background-color: rgba(0, 25, 44,0.9);
+  background-color: rgba(0, 0, 0,0.9);
 }
 
 .flag{
@@ -169,7 +285,7 @@ canvas {
 footer {
   margin-top : 10px;
   color: white;
-  background-color: rgba(99, 90, 126,0.8);
+  background-color: rgba(0, 0, 0,0.9);
   padding: 18px;
   display: flex;
   width: 100%;
@@ -232,10 +348,13 @@ footer ul {
   }
 }
 
+footer {
+  margin-top : 50px;
+}
+
 footer a {
   color: white;
   text-decoration: none;
-  box-shadow: inset 0 -1px 0 hsla(0, 0%, 100%, 0.4);
 }
 
 footer p {
@@ -243,7 +362,7 @@ footer p {
 }
 
 footer a:hover {
-  box-shadow: inset 0 -1.2em 0 hsla(0, 0%, 100%, 0.4);
+  border-bottom: 1px solid rgb(99, 90, 126);
 }
 
 footer li:last-child {
@@ -386,7 +505,7 @@ footer li:hover ~ li p {
 
 .btn-bg.bg-1 .btn-1 span {
   color: black;
-  background: #6ab1c9;
+  background: rgb(99, 90, 126);
   border: 3px solid #c7f8f9;
   border-radius: 50px;
   font-size: 25px;
@@ -406,7 +525,7 @@ footer li:hover ~ li p {
  .btn-bg.bg-1 .btn-1 span:hover {
   background: #c7f8f9;
   color: black;
-  border: 3px solid #6ab1c9;
+  border: 3px solid rgb(99, 90, 126);
   border-radius: 50px;
   -webkit-transition: all 0.35s ease;
   transition: all 0.35s ease;
