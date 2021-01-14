@@ -42,6 +42,7 @@ import ThumbProject from '@/components/ThumbProject.vue'
 import { db } from '../config/firebase'
 import '@splidejs/splide/dist/css/themes/splide-default.min.css'
 import { mapActions, mapGetters } from 'vuex'
+import anime from 'animejs/lib/anime.es.js'
 
 export default {
   name: 'Project',
@@ -152,7 +153,25 @@ export default {
     changeProject (item) {
       this.setActiveProject(item.id)
       this.loadProject()
-      window.scrollTo(0, 0)
+      const scrollElement = window.document.scrollingElement || window.document.body || window.document.documentElement
+      anime.timeline({ loop: false }).add({
+        targets: '.project',
+        opacity: [1, 0],
+        easing: 'easeInOutQuad',
+        duration: 500
+      }).add({
+        targets: scrollElement,
+        scrollTop: 0,
+        duration: 500,
+        easing: 'easeInOutQuad',
+        delay: 500
+      }).add({
+        targets: '.project',
+        opacity: [0, 1],
+        easing: 'easeInOutQuad',
+        duration: 500,
+        delay: 500
+      })
     }
   }
 }

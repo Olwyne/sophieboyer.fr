@@ -10,7 +10,7 @@
     </div>
     <div class="items">
       <router-link class="item" v-for="project in projectsList"  :key="project.name"  :to="{ name: 'Project', params: { project: project }, query: { debug: true }}">
-          <ThumbProject @click.native="setActiveProject(project.id)" :project="project"></ThumbProject>
+          <ThumbProject @click.native="setActiveProject(project.id), transitionPage()" :project="project"></ThumbProject>
       </router-link>
     </div>
   </div>
@@ -21,6 +21,7 @@
 import ThumbProject from '@/components/ThumbProject.vue'
 import { db } from '../config/firebase'
 import { mapActions, mapGetters } from 'vuex'
+import anime from 'animejs/lib/anime.es.js'
 
 export default {
   name: 'Projects',
@@ -69,6 +70,70 @@ export default {
       } else {
         this.projectsList = this.backupProject
       }
+    },
+    transitionPage (el, done) {
+      // anime.timeline({ loop: false }).add({
+      //   targets: '#content',
+      //   opacity: [1, 0],
+      //   easing: 'easeInOutQuad',
+      //   duration: 1000
+      // }).add({
+      //   targets: '#content',
+      //   opacity: [0, 1],
+      //   easing: 'easeInOutQuad',
+      //   duration: 500,
+      //   delay: 1000
+      // })
+      // anime.timeline({ loop: false }).add({
+      //   targets: 'footer',
+      //   opacity: [1, 0],
+      //   easing: 'easeInOutQuad',
+      //   duration: 1000
+      // }).add({
+      //   targets: 'footer',
+      //   opacity: [0, 1],
+      //   easing: 'easeInOutQuad',
+      //   duration: 500,
+      //   delay: 1000
+      // })
+      // anime.timeline({ loop: false }).add({
+      //   targets: 'header',
+      //   opacity: [1, 0],
+      //   easing: 'easeInOutQuad',
+      //   duration: 1000
+      // }).add({
+      //   targets: 'header',
+      //   opacity: [0, 1],
+      //   easing: 'easeInOutQuad',
+      //   duration: 500,
+      //   delay: 1000
+      // })
+      anime.timeline({ loop: false }).add({
+        targets: '#cache-bas',
+        easing: 'easeInOutSine',
+        translateY: ['50vh', 0],
+        duration: 500,
+        delay: 100
+      }).add({
+        targets: '#cache-bas',
+        easing: 'easeInOutSine',
+        translateY: [0, '50vh'],
+        duration: 1000,
+        delay: 600
+      })
+      anime.timeline({ loop: false }).add({
+        targets: '#cache-haut',
+        easing: 'easeInOutSine',
+        translateY: ['-50vh', 0],
+        duration: 500,
+        delay: 100
+      }).add({
+        targets: '#cache-haut',
+        easing: 'easeInOutSine',
+        translateY: [0, '-50vh'],
+        duration: 500,
+        delay: 600
+      })
     }
   },
   computed: {
