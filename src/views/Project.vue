@@ -121,14 +121,14 @@ export default {
         snapshot.forEach(function (childSnapshot) {
           if (childSnapshot.key === self.getActiveProject) {
             tmp = childSnapshot.val()
-            tmp.images = tmp.images.filter(item => item !== 'empty')
+            tmp.images = tmp.images.filter(item => item !== 'empty' && item.name !== 'banner')
             tmp.id = childSnapshot.key
             self.project = tmp
           }
         })
       })
       this.mountedProjects()
-      this.project.images = this.project.images.filter(item => item !== 'empty')
+      this.project.images = this.project.images.filter(item => item !== 'empty' && item.name !== 'banner')
       if (this.project.images.length <= 1) {
         this.options.arrows = false
         this.options.pagination = false
@@ -152,6 +152,7 @@ export default {
     },
     changeProject (item) {
       this.setActiveProject(item.id)
+      this.project.images = []
       this.loadProject()
       const scrollElement = window.document.scrollingElement || window.document.body || window.document.documentElement
       anime.timeline({ loop: false }).add({
@@ -231,13 +232,13 @@ h2 {
 }
 
 .thumb {
-  width: 70%;
+  width: 100%;
   margin: 20px 0 50px 0;
   border: white solid 1px;
 }
 
 .container-about{
-  width: 70%;
+  max-width: 800px;
   margin: auto;
   display: flex;
   line-height: 2;

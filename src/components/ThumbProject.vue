@@ -1,8 +1,8 @@
 <template>
     <div class="thumb-project">
-      <div class="item">
+      <div class="item" @mouseover="animeEnter(project.id)"  @mouseleave="animeLeave(project.id)">
         <img class="thumb" alt="thumb" v-bind:src="image" />
-        <p class="thumb-title">{{project.name}}</p>
+        <p v-bind:class="project.id" class="thumb-title">{{project.name}}</p>
       </div>
     </div>
 </template>
@@ -10,6 +10,7 @@
 <script>
 // @ is an alias to /src
 // import HelloWorld from '@/components/HelloWorld.vue'
+import anime from 'animejs/lib/anime.es.js'
 
 export default {
   name: 'Projects',
@@ -39,6 +40,26 @@ export default {
         self.image = (childSnapshot.url)
       }
     })
+  },
+  methods: {
+    animeEnter (name) {
+      var el = document.getElementsByClassName(name)
+      anime({
+        targets: el,
+        opacity: [0, 1],
+        easing: 'easeInOutQuad',
+        duration: 500
+      })
+    },
+    animeLeave (name) {
+      var el = document.getElementsByClassName(name)
+      anime({
+        targets: el,
+        opacity: [1, 0],
+        easing: 'easeInOutQuad',
+        duration: 500
+      })
+    }
   }
 }
 </script>
@@ -80,7 +101,8 @@ h2 {
 }
 
 .thumb-title{
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(39%, 35%, 49%,0.8);
+  opacity: 0;
   color : white;
   text-decoration: none;
   margin : 0;
@@ -88,10 +110,14 @@ h2 {
   bottom : 0;
   z-index : 1;
   width: 100%;
-  height: 50px;
+  height: 100%;
   align-items: baseline;
   display : flex;
   align-items: center;
   justify-content: center;
+  font-size: 25px;
+  text-transform: uppercase;
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  font-weight: 100;
 }
 </style>
