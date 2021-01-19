@@ -65,11 +65,26 @@ export default {
       // db.ref('en/projects').update(self.projectsList)
     },
     filterProjects (value) {
-      if (value !== 'all') {
-        this.projectsList = this.backupProject.filter(item => item.type === value)
-      } else {
-        this.projectsList = this.backupProject
-      }
+      var self = this
+      anime({
+        targets: '.items .item',
+        opacity: [1, 0],
+        easing: 'easeInOutQuad',
+        duration: 500,
+        complete: function (anim) {
+          if (value !== 'all') {
+            self.projectsList = self.backupProject.filter(item => item.type === value)
+          } else {
+            self.projectsList = self.backupProject
+          }
+          anime({
+            targets: '.items .item',
+            opacity: [0, 1],
+            easing: 'easeInOutQuad',
+            delay: anime.stagger(50)
+          })
+        }
+      })
     },
     transitionPage (el, done) {
       // anime.timeline({ loop: false }).add({

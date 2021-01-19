@@ -506,7 +506,7 @@ footer li:hover ~ li p {
 .btn-bg.bg-1 .btn-1 span {
   color: black;
   background: rgb(99, 90, 126);
-  border: 3px solid #c7f8f9;
+  border: 3px solid white;
   border-radius: 50px;
   font-size: 25px;
   padding: 0 10px 5px 10px;
@@ -523,7 +523,7 @@ footer li:hover ~ li p {
   color: black;
 }
  .btn-bg.bg-1 .btn-1 span:hover {
-  background: #c7f8f9;
+  background: white;
   color: black;
   border: 3px solid rgb(99, 90, 126);
   border-radius: 50px;
@@ -531,7 +531,7 @@ footer li:hover ~ li p {
   transition: all 0.35s ease;
 }
  .btn-bg.bg-1 .btn-1 span:hover >a {
-  color: #6ab1c9;
+  color:white;
   -webkit-transition: all 0.35s ease;
   transition: all 0.35s ease;
 }
