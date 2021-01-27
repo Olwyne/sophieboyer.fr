@@ -21,14 +21,14 @@ export default {
       targets: '.home h2',
       opacity: ['0%', '100%'],
       easing: 'easeInOutQuad',
-      delay: 1500
+      delay: 1000
     })
     const title = document.querySelector('.home h1')
     title.innerHTML = title.innerText.split('').map(function (char) {
       return '<span>' + char + '</span>'
     }).join('')
     anime.timeline({ loop: false }).add({
-      delay: 1500
+      delay: 500
     }).add({
       targets: '.home h1 span',
       opacity: [0, 1],
@@ -56,6 +56,7 @@ h2{
   color: white;
   font-weight: 100;
   text-transform: uppercase;
+  opacity: 0;
 }
 
 </style>

@@ -70,7 +70,6 @@ export default {
       })
     },
     enter: function (el, done) {
-      anime.timeline({ loop: false })
       anime.timeline({ loop: false }).add({
         targets: '#cache-bas',
         easing: 'easeInOutSine',

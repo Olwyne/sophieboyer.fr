@@ -16,6 +16,7 @@
   </div>
 </template>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.14.1/lodash.min.js"></script>
 <script>
 // @ is an alias to /src
 import ThumbProject from '@/components/ThumbProject.vue'
@@ -79,7 +80,7 @@ export default {
           } else {
             self.projectsList = self.backupProject
           }
-          anime({
+           anime({
             targets: '.items .item',
             opacity: [0, 1],
             easing: 'easeInOutQuad',
