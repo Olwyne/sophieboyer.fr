@@ -2,11 +2,11 @@
   <div class="project">
     <h1>{{ $t("Title-Project") }}</h1>
     <div class="menu">
-      <button @click="filterProjects('all')" class="btn draw-border">{{ $t("Menu-All") }}</button>
-      <button @click="filterProjects('web')" class="btn draw-border">{{ $t("Menu-Web") }}</button>
-      <button @click="filterProjects('graphisme')" class="btn draw-border">{{ $t("Menu-Design") }}</button>
-      <button @click="filterProjects('jeux video')" class="btn draw-border">{{ $t("Menu-Games") }}</button>
-      <button @click="filterProjects('audiovisuel')" class="btn draw-border">{{ $t("Menu-Audiovisual") }}</button>
+      <ButtonFilterMenu @click.native="filterProjects('all')" :text='$t("Menu-All")' />
+      <ButtonFilterMenu @click.native="filterProjects('web')" :text='$t("Menu-Web")' />
+      <ButtonFilterMenu @click.native="filterProjects('graphisme')" :text='$t("Menu-Design")' />
+      <ButtonFilterMenu @click.native="filterProjects('jeux video')" :text='$t("Menu-Games")' />
+      <ButtonFilterMenu @click.native="filterProjects('audiovisuel')" :text='$t("Menu-Audiovisual")' />
     </div>
     <div class="items">
       <router-link class="item" v-for="project in projectsList"  :key="project.name"  :to="{ name: 'Project', params: { project: project }, query: { debug: true }}">
@@ -19,6 +19,7 @@
 <script>
 // @ is an alias to /src
 import ThumbProject from '@/components/ThumbProject.vue'
+import ButtonFilterMenu from '@/components/ButtonFilterMenu.vue'
 import { db } from '../config/firebase'
 import { mapActions, mapGetters } from 'vuex'
 import anime from 'animejs/lib/anime.es.js'
@@ -26,7 +27,8 @@ import anime from 'animejs/lib/anime.es.js'
 export default {
   name: 'Projects',
   components: {
-    ThumbProject
+    ThumbProject,
+    ButtonFilterMenu
   },
   props: {
     language: null
@@ -87,42 +89,6 @@ export default {
       })
     },
     transitionPage (el, done) {
-      // anime.timeline({ loop: false }).add({
-      //   targets: '#content',
-      //   opacity: [1, 0],
-      //   easing: 'easeInOutQuad',
-      //   duration: 1000
-      // }).add({
-      //   targets: '#content',
-      //   opacity: [0, 1],
-      //   easing: 'easeInOutQuad',
-      //   duration: 500,
-      //   delay: 1000
-      // })
-      // anime.timeline({ loop: false }).add({
-      //   targets: 'footer',
-      //   opacity: [1, 0],
-      //   easing: 'easeInOutQuad',
-      //   duration: 1000
-      // }).add({
-      //   targets: 'footer',
-      //   opacity: [0, 1],
-      //   easing: 'easeInOutQuad',
-      //   duration: 500,
-      //   delay: 1000
-      // })
-      // anime.timeline({ loop: false }).add({
-      //   targets: 'header',
-      //   opacity: [1, 0],
-      //   easing: 'easeInOutQuad',
-      //   duration: 1000
-      // }).add({
-      //   targets: 'header',
-      //   opacity: [0, 1],
-      //   easing: 'easeInOutQuad',
-      //   duration: 500,
-      //   delay: 1000
-      // })
       anime.timeline({ loop: false }).add({
         targets: '#cache-bas',
         easing: 'easeInOutSine',
@@ -214,61 +180,6 @@ h2 {
   display : flex;
   align-items: center;
   justify-content: center;
-}
-
-.draw-border {
-  box-shadow: inset 0 0 0 4px #635A7E;
-  color:#635A7E;
-  transition: color 0.25s 0.0833333333s;
-  position: relative;
-}
-.draw-border::before, .draw-border::after {
-  border: 0 solid transparent;
-  box-sizing: border-box;
-  content: "";
-  pointer-events: none;
-  position: absolute;
-  width: 0;
-  height: 0;
-  bottom: 0;
-  right: 0;
-}
-.draw-border::before {
-  border-bottom-width: 4px;
-  border-left-width: 4px;
-}
-.draw-border::after {
-  border-top-width: 4px;
-  border-right-width: 4px;
-}
-.draw-border:hover {
-  color:white;
-}
-.draw-border:hover::before, .draw-border:hover::after {
-  border-color: white;
-  transition: border-color 0s, width 0.25s, height 0.25s;
-  width: 100%;
-  height: 100%;
-}
-.draw-border:hover::before {
-  transition-delay: 0s, 0s, 0.25s;
-}
-.draw-border:hover::after {
-  transition-delay: 0s, 0.25s, 0s;
-}
-
-.btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  line-height: 1.5;
-  font: 700 1.2rem "Roboto Slab", sans-serif;
-  padding: 1em 2em;
-  letter-spacing: 0.05rem;
-  margin: 10px;
-}
-.btn:focus {
-  color:white;
 }
 
 @media only screen and (max-width: 500px) {
