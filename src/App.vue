@@ -3,14 +3,12 @@
   <div id="app" v-bind:class="[$route.name!=='Home' ? activeClass : 'reverse', '']">
     <NavBar />
     <div id="content" v-bind:class="[$route.name!=='Home' ? activeClass : 'center-content','']">
-        <transition>
+        <transition name="component-fade" mode="out-in">
           <router-view :language="$i18n.locale" :idProject="id"></router-view>
         </transition>
     </div>
     <ButtonTop />
     <Footer />
-    <div id="cache-haut"></div>
-    <div id="cache-bas"></div>
   </div>
   </transition>
 </template>
@@ -47,40 +45,20 @@ export default {
       'setActiveProject'
     ]),
     leave: function (el, done) {
+      console.log('he')
       anime.timeline().add({
         targets: '#content',
         easing: 'easeInOutSine',
         opacity: ['100%', '0%'],
-        duration: 1000
-      }).add({
-        targets: '#cache-bas',
-        easing: 'easeInOutSine',
-        translateY: ['50vh', 0],
-        duration: 500,
-        delay: 500
-      }).add({
-        targets: '#cache-haut',
-        easing: 'easeInOutSine',
-        translateY: ['-50vh', 0],
-        duration: 500,
-        delay: 500,
+        duration: 1000,
         complete: function () {
           return done
         }
       })
     },
     enter: function (el, done) {
+      console.log('ge')
       anime.timeline({ loop: false }).add({
-        targets: '#cache-bas',
-        easing: 'easeInOutSine',
-        translateY: [0, '50vh'],
-        duration: 500
-      }).add({
-        targets: '#cache-haut',
-        easing: 'easeInOutSine',
-        translateY: [0, '-50vh'],
-        duration: 500
-      }).add({
         targets: '#content',
         easing: 'easeInOutSine',
         opacity: ['0%', '100%'],
@@ -93,52 +71,17 @@ export default {
     },
     firstEnter (el, done) {
       anime({
+        targets: '#content',
+        easing: 'easeInOutSine',
+        opacity: ['0%', '100%'],
+        duration: 2000
+      })
+      anime({
         targets: '.menu',
         opacity: ['0%', '100%'],
         easing: 'easeInOutQuad',
-        delay: 1500
-      })
-      anime({
-        targets: '#cache-bas',
-        easing: 'easeInOutSine',
-        translateY: [0, '50vh'],
-        duration: 1000,
-        delay: 500
-      })
-      anime({
-        targets: '#cache-haut',
-        easing: 'easeInOutSine',
-        translateY: [0, '-50vh'],
-        duration: 1000,
-        delay: 500
-      })
-    },
-    transitionPage (el, done) {
-      anime.timeline({ loop: false }).add({
-        targets: '#cache-bas',
-        easing: 'easeInOutSine',
-        translateY: ['50vh', 0],
-        duration: 500,
-        delay: 100
-      }).add({
-        targets: '#cache-bas',
-        easing: 'easeInOutSine',
-        translateY: [0, '50vh'],
-        duration: 1000,
-        delay: 600
-      })
-      anime.timeline({ loop: false }).add({
-        targets: '#cache-haut',
-        easing: 'easeInOutSine',
-        translateY: ['-50vh', 0],
-        duration: 500,
-        delay: 100
-      }).add({
-        targets: '#cache-haut',
-        easing: 'easeInOutSine',
-        translateY: [0, '-50vh'],
-        duration: 500,
-        delay: 600
+        delay: 1000,
+        duration: 2000
       })
     }
   },
@@ -156,26 +99,9 @@ export default {
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
-#cache-haut{
-  width: 100%;
-  height: 50vh;
-  background: black;
-  position: fixed;
-  top: 0vh;
-  z-index: 15;
-}
-
-#cache-bas{
-  width: 100%;
-  height: 50vh;
-  background: black;
-  position: fixed;
-  top: 50vh;
-  z-index: 15;
-}
-
 html {
   height: 100%;
+  width: 100%;
 }
 body{
   margin: 0;
@@ -216,5 +142,12 @@ canvas {
   width:100%;
   margin-top: 50vh; /* poussé de la moitié de hauteur de viewport */
   transform: translateY(-120%); /* tiré de la moitié de sa propre hauteur */
+}
+
+.component-fade-enter-active, .component-fade-leave-active {
+  transition: opacity 0.8s ease;
+}
+.component-fade-enter, .component-fade-leave-to {
+  opacity: 0;
 }
 </style>

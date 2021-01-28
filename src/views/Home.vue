@@ -28,7 +28,7 @@ export default {
       return '<span>' + char + '</span>'
     }).join('')
     anime.timeline({ loop: false }).add({
-      delay: 500
+      delay: 2000
     }).add({
       targets: '.home h1 span',
       opacity: [0, 1],

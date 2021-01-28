@@ -8,11 +8,11 @@
       <ButtonFilterMenu @click.native="filterProjects('jeux video')" :text='$t("Menu-Games")' />
       <ButtonFilterMenu @click.native="filterProjects('audiovisuel')" :text='$t("Menu-Audiovisual")' />
     </div>
-    <div class="items">
-      <router-link class="item" v-for="project in projectsList"  :key="project.name"  :to="{ name: 'Project', params: { project: project }, query: { debug: true }}">
-          <ThumbProject @click.native="setActiveProject(project.id), transitionPage()" :project="project"></ThumbProject>
+    <transition-group appear name="slide-in" class="items" tag="div" >
+      <router-link class="item" v-for="(project, index) in projectsList" :key="project.name"  :to="{ name: 'Project', params: { project: project }, query: { project: project.id }}">
+          <ThumbProject @click.native="setActiveProject(project.id), transitionPage()" :project="project" :index="index"></ThumbProject>
       </router-link>
-    </div>
+    </transition-group>
   </div>
 </template>
 
@@ -43,10 +43,13 @@ export default {
   watch: {
     language: function (newVal, oldVal) { // watch it
       this.projectsList = []
+      this.backupProject = []
       this.mountedProject()
     }
   },
   mounted: function () {
+    this.projectsList = []
+    this.backupProject = []
     this.mountedProject()
   },
   methods: {
@@ -80,12 +83,6 @@ export default {
           } else {
             self.projectsList = self.backupProject
           }
-           anime({
-            targets: '.items .item',
-            opacity: [0, 1],
-            easing: 'easeInOutQuad',
-            delay: anime.stagger(50)
-          })
         }
       })
     },
@@ -126,7 +123,8 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+
 h1 {
   letter-spacing: 15px;
   font-weight: 100;
@@ -187,6 +185,16 @@ h2 {
   .item {
     width: 90% !important;
   }
+}
+
+.slide-in-enter{
+  opacity: 0;
+  transform: scale(0.5);
+}
+
+.slide-in-enter-active {
+    transition: all .6s ease;
+    transition-delay: calc( .1s * var(--i) );
 }
 
 </style>

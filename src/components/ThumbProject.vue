@@ -1,5 +1,5 @@
 <template>
-    <div class="thumb-project">
+    <div class="thumb-project" :style="gridStyle">
       <div class="item" @mouseover="animeEnter(project.id)"  @mouseleave="animeLeave(project.id)">
         <img class="thumb" alt="thumb" v-bind:src="image" />
         <p v-bind:class="project.id" class="thumb-title">{{project.name}}</p>
@@ -14,19 +14,10 @@ import anime from 'animejs/lib/anime.es.js'
 
 export default {
   name: 'Projects',
-  props: {
-    project: {
-      name: null,
-      description: null,
-      date: null,
-      type: null,
-      link: null,
-      images: [],
-      software: null,
-      language: null,
-      job: null
-    }
-  },
+  props: [
+    'project',
+    'index'
+  ],
   components: {},
   data () {
     return {
@@ -59,6 +50,13 @@ export default {
         easing: 'easeInOutQuad',
         duration: 500
       })
+    }
+  },
+  computed: {
+    gridStyle () {
+      return {
+        '--i': this.index
+      }
     }
   }
 }

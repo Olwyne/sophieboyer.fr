@@ -2,8 +2,8 @@
     <footer v-if="$route.name!=='Home'" v-bind:class="[$route.name!=='Home' ? activeClass : 'footer-fixed']">
         <ul>
           <li><a href="https://www.linkedin.com/in/sophie-boyer/">LinkedIn</a></li>
-          <li><a href="https://www.youtube.com/channel/UCBgH8kod4JgnyT9prnlTNVQ/">Youtube</a></li>
-          <li><a href="https://github.com/olwyne">Github</a></li>
+          <!-- <li><a href="https://www.youtube.com/channel/UCBgH8kod4JgnyT9prnlTNVQ/">Youtube</a></li> -->
+          <!-- <li><a href="https://github.com/olwyne">Github</a></li> -->
           <li>
             <p>👋</p>
           </li>

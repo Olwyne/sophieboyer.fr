@@ -4,11 +4,12 @@ import router from './router'
 import store from './store'
 import VueI18n from 'vue-i18n'
 import VueSplide from '@splidejs/vue-splide'
+import Vuex from 'vuex'
 // import anime from 'animejs/lib/anime.es.js'
-
 import { rtdbPlugin } from 'vuefire'
-Vue.use(rtdbPlugin)
 
+Vue.use(rtdbPlugin)
+Vue.use(Vuex)
 Vue.config.productionTip = false
 Vue.use(VueI18n)
 
