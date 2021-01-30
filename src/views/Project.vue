@@ -4,7 +4,7 @@
       <h1>{{ project.name }}</h1>
       <h2>{{ project.date }} - {{ project.type }}</h2>
       <splide :options="options" v-if="project.images != null">
-        <splide-slide v-for="(image, index) in project.images" :key="index" >
+        <splide-slide v-for="(image) in project.images" :key="image.name" >
           <img class="thumb" v-bind:src="image.url">
         </splide-slide>
       </splide>
@@ -119,7 +119,6 @@ export default {
       const parsed = JSON.stringify(this.project)
       localStorage.setItem('project', parsed)
     }
-    console.log(this.project)
     this.loadProject()
   },
   computed: {
@@ -139,13 +138,14 @@ export default {
         snapshot.forEach(function (childSnapshot) {
           if (childSnapshot.key === self.project.id) {
             tmp = childSnapshot.val()
-            tmp.images = tmp.images.filter(item => item !== 'empty' && item.name === 'banner')
+            tmp.images = tmp.images.filter(item => item !== 'empty' && item.name !== 'banner')
             tmp.id = childSnapshot.key
             self.project = tmp
           }
         })
       })
-      this.project.images = this.project.images.filter(item => item !== 'empty' && item.name === 'banner')
+      this.project.images = this.project.images.filter(item => item !== null)
+      this.project.images = this.project.images.filter(item => item !== 'empty' && item.name !== 'banner')
       if (this.project.images.length <= 1) {
         this.options.arrows = false
         this.options.pagination = false
