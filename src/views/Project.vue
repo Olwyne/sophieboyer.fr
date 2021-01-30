@@ -4,7 +4,7 @@
       <h1>{{ project.name }}</h1>
       <h2>{{ project.date }} - {{ project.type }}</h2>
       <splide :options="options" v-if="project.images != null">
-        <splide-slide v-for="image in project.images" :key="image.name" >
+        <splide-slide v-for="(image, index) in project.images" :key="index" >
           <img class="thumb" v-bind:src="image.url">
         </splide-slide>
       </splide>
@@ -85,7 +85,7 @@ export default {
         job: null,
         language: null,
         link: null,
-        name: null,
+        name: ' ',
         software: null,
         type: null
       },
@@ -102,8 +102,24 @@ export default {
   },
   created () {
     window.scrollTo(0, 0)
-    this.project = this.$route.params.project
-    this.project.id = this.$route.query.project
+    if (!this.$route.params.project) {
+      if (localStorage.getItem('project')) {
+        try {
+          this.project = JSON.parse(localStorage.getItem('project'))
+        } catch (e) {
+          localStorage.removeItem('project')
+        }
+      } else {
+        const parsed = JSON.stringify(this.project)
+        localStorage.setItem('project', parsed)
+      }
+    } else {
+      this.project = this.$route.params.project
+      this.project.id = this.$route.query.project
+      const parsed = JSON.stringify(this.project)
+      localStorage.setItem('project', parsed)
+    }
+    console.log(this.project)
     this.loadProject()
   },
   computed: {
@@ -121,20 +137,20 @@ export default {
       var query = db.ref(self.language + '/projects').orderByKey()
       query.once('value').then(function (snapshot) {
         snapshot.forEach(function (childSnapshot) {
-          if (childSnapshot.key === self.$route.query.project) {
+          if (childSnapshot.key === self.project.id) {
             tmp = childSnapshot.val()
-            tmp.images = tmp.images.filter(item => item !== 'empty' && item.name !== 'banner')
+            tmp.images = tmp.images.filter(item => item !== 'empty' && item.name === 'banner')
             tmp.id = childSnapshot.key
             self.project = tmp
           }
         })
       })
-      this.mountedProjects()
-      this.project.images = this.project.images.filter(item => item !== 'empty' && item.name !== 'banner')
+      this.project.images = this.project.images.filter(item => item !== 'empty' && item.name === 'banner')
       if (this.project.images.length <= 1) {
         this.options.arrows = false
         this.options.pagination = false
       }
+      this.mountedProjects()
     },
     mountedProjects () {
       this.projectsList = []
@@ -143,9 +159,8 @@ export default {
       var query = db.ref(this.language + '/projects').orderByKey()
       query.once('value').then(function (snapshot) {
         snapshot.forEach(function (childSnapshot) {
-          if ((childSnapshot.val().type === self.project.type) && (childSnapshot.key !== self.$route.query.project)) {
+          if ((childSnapshot.val().type === self.project.type) && (childSnapshot.key !== self.project.id)) {
             tmp = childSnapshot.val()
-            tmp.images = tmp.images.filter(item => item !== 'empty')
             tmp.id = childSnapshot.key
             self.projectsList.push(tmp)
           }
@@ -155,7 +170,8 @@ export default {
     changeProject (item) {
       this.setActiveProject(item.id)
       this.project.id = item.id
-      // this.project.images = []
+      const parsed = JSON.stringify(item)
+      localStorage.setItem('project', parsed)
       this.loadProject()
       const scrollElement = window.document.scrollingElement || window.document.body || window.document.documentElement
       anime.timeline({ loop: false }).add({
