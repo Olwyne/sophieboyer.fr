@@ -3,7 +3,7 @@
     <div class="main-project">
       <h1>{{ project.name }}</h1>
       <h2>{{ project.date }} - {{ project.type }}</h2>
-      <splide :options="options" v-if="project.images != null">
+      <splide @splide:mounted="updateArrow" :options="options" v-if="project.images != null" ref="primary">
         <splide-slide v-for="(image) in project.images" :key="image.name" >
           <img class="thumb" v-bind:src="image.url">
         </splide-slide>
@@ -98,6 +98,9 @@ export default {
   watch: {
     language: function (newVal, oldVal) { // watch it
       this.loadProject()
+    },
+    project: function (newVal, oldVal) { // watch it
+      this.updateArrow()
     }
   },
   created () {
@@ -130,6 +133,21 @@ export default {
     ...mapActions([
       'setActiveProject'
     ]),
+    updateArrow () {
+      if (this.project.images.length <= 1) {
+        this.options.arrows = false
+        this.options.pagination = false
+        document.getElementsByClassName('splide__arrow')[0].style.display = 'none'
+        document.getElementsByClassName('splide__arrow')[1].style.display = 'none'
+        document.getElementsByClassName('splide__pagination__page')[0].style.display = 'none'
+      } else {
+        this.options.arrows = true
+        this.options.pagination = true
+        document.getElementsByClassName('splide__arrow')[0].style.display = 'block'
+        document.getElementsByClassName('splide__arrow')[1].style.display = 'block'
+        document.getElementsByClassName('splide__pagination__page')[0].style.display = 'block'
+      }
+    },
     loadProject () {
       var self = this
       var tmp
@@ -144,12 +162,7 @@ export default {
           }
         })
       })
-      this.project.images = this.project.images.filter(item => item !== null)
-      this.project.images = this.project.images.filter(item => item !== 'empty' && item.name !== 'banner')
-      if (this.project.images.length <= 1) {
-        this.options.arrows = false
-        this.options.pagination = false
-      }
+      this.project.images = this.project.images.filter(item => item !== null).filter(item => item !== 'empty' && item.name !== 'banner')
       this.mountedProjects()
     },
     mountedProjects () {
