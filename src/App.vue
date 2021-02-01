@@ -36,12 +36,23 @@ export default {
     }
   },
   created () {
+    // initialisation firebase
     init()
+    // get last language
+    if (localStorage.getItem('language')) {
+      try {
+        this.$i18n.locale = JSON.parse(localStorage.getItem('language'))
+      } catch (e) {
+        localStorage.removeItem('language')
+      }
+    } else {
+      const parsed = JSON.stringify(this.$i18n.locale)
+      localStorage.setItem('language', parsed)
+    }
   },
   methods: {
     // Animation page transition
     leave: function (el, done) {
-      console.log('he')
       anime.timeline().add({
         targets: '#content',
         easing: 'easeInOutSine',
@@ -54,7 +65,6 @@ export default {
     },
     // Animation page transition
     enter: function (el, done) {
-      console.log('ge')
       anime.timeline({ loop: false }).add({
         targets: '#content',
         easing: 'easeInOutSine',

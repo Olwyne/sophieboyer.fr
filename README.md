@@ -2,7 +2,7 @@
 
 ## Description
 
-Projet site portfolio réalisé en VueJs avec une base de donnée Firebase et des animations en AnimeJS
+Projet site portfolio réalisé en VueJs avec une base de donnée Firebase, les traductions avec Vue I18n et des animations en AnimeJS
 ## Project setup
 ```
 npm install

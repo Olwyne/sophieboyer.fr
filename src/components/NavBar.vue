@@ -6,8 +6,8 @@
         <li><router-link v-if="$route.name!=='Home'" to="/">{{ $t("Nav-Home") }}</router-link></li>
         <li> <router-link  to="/projects">{{ $t("Nav-Project") }}</router-link></li>
         <li ><router-link  to="/about">{{ $t("Nav-AboutMe") }}</router-link></li>
-        <li><img class="flag"  v-if="$i18n.locale=='fr'" v-on:click="$i18n.locale='en'" alt="fr"  src="@/assets/icons8-etats-unis-96.png"></li>
-        <li> <img class="flag"  v-if="$i18n.locale=='en'" v-on:click="$i18n.locale='fr'" alt="en"  src="@/assets/icons8-france-96.png"></li>
+        <li><img class="flag"  v-if="$i18n.locale=='fr'" v-on:click="$i18n.locale='en', setLanguage('en')" alt="fr"  src="@/assets/icons8-etats-unis-96.png"></li>
+        <li> <img class="flag"  v-if="$i18n.locale=='en'" v-on:click="$i18n.locale='fr', setLanguage('fr')" alt="en"  src="@/assets/icons8-france-96.png"></li>
       </ul>
     </header>
 </template>
@@ -18,6 +18,13 @@ export default {
   data () {
     return {
       activeClass: String
+    }
+  },
+  methods: {
+    // get last language
+    setLanguage () {
+      const parsed = JSON.stringify(this.$i18n.locale)
+      localStorage.setItem('language', parsed)
     }
   }
 }
