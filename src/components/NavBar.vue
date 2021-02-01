@@ -6,7 +6,6 @@
         <li><router-link v-if="$route.name!=='Home'" to="/">{{ $t("Nav-Home") }}</router-link></li>
         <li> <router-link  to="/projects">{{ $t("Nav-Project") }}</router-link></li>
         <li ><router-link  to="/about">{{ $t("Nav-AboutMe") }}</router-link></li>
-        <!-- <li><router-link to="/contact">{{ $t("Nav-Contact") }}</router-link></li> -->
         <li><img class="flag"  v-if="$i18n.locale=='fr'" v-on:click="$i18n.locale='en'" alt="fr"  src="@/assets/icons8-etats-unis-96.png"></li>
         <li> <img class="flag"  v-if="$i18n.locale=='en'" v-on:click="$i18n.locale='fr'" alt="en"  src="@/assets/icons8-france-96.png"></li>
       </ul>
@@ -24,7 +23,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .nav {
   width:100%;
@@ -69,7 +67,6 @@ export default {
 }
 
 @media only screen and (max-width: 500px) {
- /* Appareils avec une résolution de 500 pixels ou moins */
  footer ul {
     grid-auto-flow: column;
     margin: 0;
@@ -126,15 +123,11 @@ export default {
   background-color: black;
 }
 
-/* menu */
-
 .header .menu {
   clear: both;
   max-height: 0;
   transition: max-height .2s ease-out;
 }
-
-/* menu icon */
 
 .header .menu-icon {
   cursor: pointer;
@@ -172,8 +165,6 @@ export default {
   top: -10px;
 }
 
-/* menu btn */
-
 .header .menu-btn {
   display: none;
 }
@@ -198,8 +189,6 @@ export default {
 .header .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:after {
   top: 0;
 }
-
-/* 48em = 768px */
 
 @media (min-width: 48em) {
   .header li {

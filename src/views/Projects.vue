@@ -10,19 +10,16 @@
     </div>
     <transition-group appear name="slide-in" class="items" tag="div" >
       <router-link class="item" v-for="(project, index) in projectsList" :key="project.name"  :to="{ name: 'Project', params: { project: project }, query: { project: project.id }}">
-          <ThumbProject @click.native="setActiveProject(project.id), transitionPage()" :project="project" :index="index"></ThumbProject>
+          <ThumbProject :project="project" :index="index"></ThumbProject>
       </router-link>
     </transition-group>
   </div>
 </template>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.14.1/lodash.min.js"></script>
 <script>
-// @ is an alias to /src
 import ThumbProject from '@/components/ThumbProject.vue'
 import ButtonFilterMenu from '@/components/ButtonFilterMenu.vue'
 import { db } from '../config/firebase'
-import { mapActions, mapGetters } from 'vuex'
 import anime from 'animejs/lib/anime.es.js'
 
 export default {
@@ -41,7 +38,8 @@ export default {
     }
   },
   watch: {
-    language: function (newVal, oldVal) { // watch it
+    // Change language reset text
+    language: function () {
       this.projectsList = []
       this.backupProject = []
       this.mountedProject()
@@ -53,9 +51,7 @@ export default {
     this.mountedProject()
   },
   methods: {
-    ...mapActions([
-      'setActiveProject'
-    ]),
+    // Load project from firebase
     mountedProject () {
       var query = db.ref(this.language + '/projects').orderByChild('date')
       const self = this
@@ -68,8 +64,8 @@ export default {
         })
       })
       this.filterProjects('all')
-      // db.ref('en/projects').update(self.projectsList)
     },
+    // Filter projects
     filterProjects (value) {
       var self = this
       anime({
@@ -77,7 +73,7 @@ export default {
         opacity: [1, 0],
         easing: 'easeInOutQuad',
         duration: 500,
-        complete: function (anim) {
+        complete: function () {
           if (value !== 'all') {
             self.projectsList = self.backupProject.filter(item => item.type === value)
           } else {
@@ -85,46 +81,12 @@ export default {
           }
         }
       })
-    },
-    transitionPage (el, done) {
-      anime.timeline({ loop: false }).add({
-        targets: '#cache-bas',
-        easing: 'easeInOutSine',
-        translateY: ['50vh', 0],
-        duration: 500,
-        delay: 100
-      }).add({
-        targets: '#cache-bas',
-        easing: 'easeInOutSine',
-        translateY: [0, '50vh'],
-        duration: 1000,
-        delay: 600
-      })
-      anime.timeline({ loop: false }).add({
-        targets: '#cache-haut',
-        easing: 'easeInOutSine',
-        translateY: ['-50vh', 0],
-        duration: 500,
-        delay: 100
-      }).add({
-        targets: '#cache-haut',
-        easing: 'easeInOutSine',
-        translateY: [0, '-50vh'],
-        duration: 500,
-        delay: 600
-      })
     }
-  },
-  computed: {
-    ...mapGetters([
-      'getActiveProject'
-    ])
   }
 }
 </script>
 
-<style lang="scss" scoped>
-
+<style scoped>
 h1 {
   letter-spacing: 15px;
   font-weight: 100;
@@ -196,5 +158,4 @@ h2 {
     transition: all .6s ease;
     transition-delay: calc( .1s * var(--i) );
 }
-
 </style>

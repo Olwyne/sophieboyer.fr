@@ -2,8 +2,6 @@
     <footer v-if="$route.name!=='Home'" v-bind:class="[$route.name!=='Home' ? activeClass : 'footer-fixed']">
         <ul>
           <li><a href="https://www.linkedin.com/in/sophie-boyer/">LinkedIn</a></li>
-          <!-- <li><a href="https://www.youtube.com/channel/UCBgH8kod4JgnyT9prnlTNVQ/">Youtube</a></li> -->
-          <!-- <li><a href="https://github.com/olwyne">Github</a></li> -->
           <li>
             <p>👋</p>
           </li>
@@ -22,7 +20,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 footer {
   margin-top : 10px;
@@ -49,13 +46,11 @@ footer ul {
 }
 
 @media only screen and (min-width: 501px) {
- /* Appareils avec une résolution au-dessus de 500px */
   footer ul {
     grid-auto-flow: column;
   }
 }
 @media only screen and (max-width: 500px) {
- /* Appareils avec une résolution de 500 pixels ou moins */
  footer ul {
     grid-auto-flow: column;
     margin: 0;

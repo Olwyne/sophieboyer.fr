@@ -1,5 +1,5 @@
 <template>
-    <div class="thumb-project" :style="gridStyle">
+    <div class="thumb-project">
       <div class="item" @mouseover="animeEnter(project.id)"  @mouseleave="animeLeave(project.id)">
         <img class="thumb" alt="thumb" v-bind:src="image" />
         <p v-bind:class="project.id" class="thumb-title">{{project.name}}</p>
@@ -8,8 +8,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
-// import HelloWorld from '@/components/HelloWorld.vue'
 import anime from 'animejs/lib/anime.es.js'
 
 export default {
@@ -33,6 +31,7 @@ export default {
     })
   },
   methods: {
+    // Animation
     animeEnter (name) {
       var el = document.getElementsByClassName(name)
       anime({
@@ -42,6 +41,7 @@ export default {
         duration: 500
       })
     },
+    // Animation
     animeLeave (name) {
       var el = document.getElementsByClassName(name)
       anime({
@@ -50,13 +50,6 @@ export default {
         easing: 'easeInOutQuad',
         duration: 500
       })
-    }
-  },
-  computed: {
-    gridStyle () {
-      return {
-        '--i': this.index
-      }
     }
   }
 }

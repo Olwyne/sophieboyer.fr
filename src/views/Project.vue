@@ -26,7 +26,7 @@
       <div class="items">
           <splide :options="optionsProjects">
             <splide-slide v-for="item in projectsList" :key="item.id" >
-              <router-link class="item"   @click.native="changeProject(item)" :to="{ name: 'Project', params: { project: item }, query: { project: item.id }}">
+              <router-link class="item" @click.native="changeProject(item)" :to="{ name: 'Project', params: { project: item }, query: { project: item.id }}">
                 <ThumbProject :project="item"></ThumbProject>
               </router-link>
             </splide-slide>
@@ -41,7 +41,6 @@
 import ThumbProject from '@/components/ThumbProject.vue'
 import { db } from '../config/firebase'
 import '@splidejs/splide/dist/css/themes/splide-default.min.css'
-import { mapActions, mapGetters } from 'vuex'
 import anime from 'animejs/lib/anime.es.js'
 
 export default {
@@ -96,15 +95,18 @@ export default {
     language: null
   },
   watch: {
-    language: function (newVal, oldVal) { // watch it
+    // Change text when language change
+    language: function () {
       this.loadProject()
     },
-    project: function (newVal, oldVal) { // watch it
+    // Update slider when change project
+    project: function () {
       this.updateArrow()
     }
   },
   created () {
     window.scrollTo(0, 0)
+    // Catch localStorage project
     if (!this.$route.params.project) {
       if (localStorage.getItem('project')) {
         try {
@@ -124,15 +126,9 @@ export default {
     }
     this.loadProject()
   },
-  computed: {
-    ...mapGetters([
-      'getActiveProject'
-    ])
-  },
+
   methods: {
-    ...mapActions([
-      'setActiveProject'
-    ]),
+    // Update slider
     updateArrow () {
       if (this.project.images.length <= 1) {
         this.options.arrows = false
@@ -148,6 +144,7 @@ export default {
         document.getElementsByClassName('splide__pagination__page')[0].style.display = 'block'
       }
     },
+    // Load selected Project
     loadProject () {
       var self = this
       var tmp
@@ -165,6 +162,7 @@ export default {
       this.project.images = this.project.images.filter(item => item !== null).filter(item => item !== 'empty' && item.name !== 'banner')
       this.mountedProjects()
     },
+    // Load others related projects
     mountedProjects () {
       this.projectsList = []
       var self = this
@@ -180,8 +178,8 @@ export default {
         })
       })
     },
+    // Change project when click on second slider
     changeProject (item) {
-      this.setActiveProject(item.id)
       this.project.id = item.id
       const parsed = JSON.stringify(item)
       localStorage.setItem('project', parsed)
@@ -279,7 +277,7 @@ h2 {
 }
 
 .button {
-  background-color: #766D98; /* Green */
+  background-color: #766D98;
   border: none;
   color: white;
   padding: 15px 32px;

@@ -25,6 +25,7 @@ export default {
     goTop () {
       window.scrollTo(0, 0)
     },
+    // Show button when user scrolls
     handleScroll () {
       if (window.scrollY > 0) {
         this.isUserScrolling = true
@@ -36,7 +37,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .btn-bg.bg-1 .btn-1 span {
   color: black;

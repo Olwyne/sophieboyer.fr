@@ -11,7 +11,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .draw-border {
   box-shadow: inset 0 0 0 4px #635A7E;

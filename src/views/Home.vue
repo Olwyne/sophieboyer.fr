@@ -1,15 +1,11 @@
 <template>
   <div class="home">
-    <!-- <img alt="Vue logo" src="@/assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/> -->
     <h1>Sophie Boyer</h1>
     <h2>{{ $t("Presentation") }}</h2>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-// import HelloWorld from '@/components/HelloWorld.vue'
 import anime from 'animejs/lib/anime.es.js'
 
 export default {
@@ -41,7 +37,6 @@ export default {
 </script>
 
 <style scoped>
-
 h1{
   letter-spacing: 15px;
   font-weight: 100;
@@ -58,5 +53,4 @@ h2{
   text-transform: uppercase;
   opacity: 0;
 }
-
 </style>

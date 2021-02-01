@@ -1,5 +1,8 @@
 # sophieboyer.fr
 
+## Description
+
+Projet site portfolio réalisé en VueJs avec une base de donnée Firebase et des animations en AnimeJS
 ## Project setup
 ```
 npm install

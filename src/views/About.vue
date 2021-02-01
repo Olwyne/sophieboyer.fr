@@ -1,9 +1,6 @@
 <template>
   <div class="about">
     <h1>{{ $t("Title-AboutMe") }}</h1>
-    <!-- <p class="text">
-      {{ $t("About-text") }}
-    </p> -->
     <div class="container">
      <TimeLine :experiencesList="experiencesList" :title="$t('About-experience')" class="column"></TimeLine>
      <TimeLine :experiencesList="educationsList" :title="$t('About-education')" class="column"></TimeLine>
@@ -12,8 +9,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
-// import HelloWorld from '@/components/HelloWorld.vue'
 import TimeLine from '@/components/TimeLine.vue'
 import { db } from '../config/firebase'
 
@@ -34,7 +29,8 @@ export default {
     }
   },
   watch: {
-    language: function (newVal, oldVal) { // watch it
+    // Change data when language change
+    language: function () {
       this.experiencesList = []
       this.educationsList = []
       this.mountedExperiences()
@@ -46,37 +42,23 @@ export default {
     this.mountedEducation()
   },
   methods: {
+    // Load experiences from firebase
     mountedExperiences () {
       var query = db.ref(this.language + '/experiences').orderByKey()
       const self = this
       query.once('value').then(function (snapshot) {
         snapshot.forEach(function (childSnapshot) {
           self.experiencesList.push(childSnapshot.val())
-          // db.ref('en/experiences/' + childSnapshot.key).set({
-          //   job: childSnapshot.val().job,
-          //   image: childSnapshot.val().image,
-          //   company: childSnapshot.val().company,
-          //   date: childSnapshot.val().date,
-          //   location: childSnapshot.val().location,
-          //   description: childSnapshot.val().description
-          // })
         })
       })
     },
+    // Load education from firebase
     mountedEducation () {
       var query = db.ref(this.language + '/educations').orderByKey()
       const self = this
       query.once('value').then(function (snapshot) {
         snapshot.forEach(function (childSnapshot) {
           self.educationsList.push(childSnapshot.val())
-          // db.ref('en/educations/' + childSnapshot.key).set({
-          //   job: childSnapshot.val().job,
-          //   image: childSnapshot.val().image,
-          //   company: childSnapshot.val().company,
-          //   date: childSnapshot.val().date,
-          //   location: childSnapshot.val().location,
-          //   description: childSnapshot.val().description
-          // })
         })
       })
     }

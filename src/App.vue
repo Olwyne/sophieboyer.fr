@@ -14,11 +14,9 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import NavBar from '@/components/NavBar.vue'
 import ButtonTop from '@/components/ButtonTop.vue'
 import Footer from '@/components/Footer.vue'
-import { mapActions, mapGetters } from 'vuex'
 import init from './assets/index'
 import anime from 'animejs/lib/anime.es.js'
 
@@ -41,9 +39,7 @@ export default {
     init()
   },
   methods: {
-    ...mapActions([
-      'setActiveProject'
-    ]),
+    // Animation page transition
     leave: function (el, done) {
       console.log('he')
       anime.timeline().add({
@@ -56,6 +52,7 @@ export default {
         }
       })
     },
+    // Animation page transition
     enter: function (el, done) {
       console.log('ge')
       anime.timeline({ loop: false }).add({
@@ -69,6 +66,7 @@ export default {
         }
       })
     },
+    // Animation appear website
     firstEnter (el, done) {
       anime({
         targets: '#content',
@@ -84,14 +82,6 @@ export default {
         duration: 2000
       })
     }
-  },
-  computed: {
-    ...mapGetters([
-      'getActiveProject'
-    ])
-  },
-  mounted: function () {
-    this.id = this.getActiveProject
   }
 }
 </script>
@@ -140,8 +130,8 @@ canvas {
 
 .center-content {
   width:100%;
-  margin-top: 50vh; /* poussé de la moitié de hauteur de viewport */
-  transform: translateY(-120%); /* tiré de la moitié de sa propre hauteur */
+  margin-top: 50vh;
+  transform: translateY(-120%);
 }
 
 .component-fade-enter-active, .component-fade-leave-active {
