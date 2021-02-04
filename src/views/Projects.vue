@@ -9,14 +9,25 @@
       <ButtonFilterMenu @click.native="filterProjects('audiovisuel')" :text='$t("Menu-Audiovisual")' />
     </div>
     <transition-group appear name="slide-in" class="items" tag="div" >
-      <router-link class="item" v-for="(project, index) in projectsList" :key="project.name"  :to="{ name: 'Project', params: { project: project }, query: { project: project.id }}">
+      <!-- <router-link class="item" v-for="(project, index) in projectsList" :key="project.name"  :to="{ name: 'Project', params: { project: project }, query: { project: project.id }}">
           <ThumbProject :project="project" :index="index"></ThumbProject>
-      </router-link>
+      </router-link> -->
+      <div class="item" v-for="(project, index) in projectsList" :key="project.name">
+        <b-button v-bind:id="index" @click="$bvModal.show(getTarget(index))"><ThumbProject :project="project" :index="index"></ThumbProject></b-button>
+         <b-modal v-bind:id="getTarget(index)" hide-footer  size="xl" header-bg-variant="dark"
+      header-text-variant="light"
+      body-bg-variant="dark"
+      body-text-variant="light"
+     >
+            <ModalProject :project="project" :index="index" />
+        </b-modal>
+      </div>
     </transition-group>
   </div>
 </template>
 
 <script>
+import ModalProject from '@/components/ModalProject.vue'
 import ThumbProject from '@/components/ThumbProject.vue'
 import ButtonFilterMenu from '@/components/ButtonFilterMenu.vue'
 import { db } from '../config/firebase'
@@ -26,7 +37,8 @@ export default {
   name: 'Projects',
   components: {
     ThumbProject,
-    ButtonFilterMenu
+    ButtonFilterMenu,
+    ModalProject
   },
   props: {
     language: null
@@ -51,6 +63,9 @@ export default {
     this.mountedProject()
   },
   methods: {
+    getTarget (id) {
+      return `'modal-${id}'`
+    },
     // Load project from firebase
     mountedProject () {
       var query = db.ref(this.language + '/projects').orderByChild('date')
@@ -102,7 +117,10 @@ h2 {
   font-weight: 100;
   text-transform: uppercase;
 }
-
+.btn-secondary{
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
 .items {
   width: 80%;
   margin: auto;
