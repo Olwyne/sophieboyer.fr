@@ -10,6 +10,8 @@
   "dependencies": {
     "@splidejs/vue-splide": "^0.3.5",
     "animejs": "^3.2.1",
+    "bootstrap": "^4.6.0",
+    "bootstrap-vue": "^2.21.2",
     "core-js": "^3.6.5",
     "dat.gui": "^0.7.7",
     "firebase": "^8.2.0",
@@ -17,7 +19,7 @@
     "sass": "^1.32.5",
     "sass-loader": "^10.1.0",
     "three": "^0.124.0",
-    "vue": "^2.6.11",
+    "vue": "^2.6.12",
     "vue-i18n": "^8.22.2",
     "vue-router": "^3.2.0",
     "vuefire": "^2.2.5",

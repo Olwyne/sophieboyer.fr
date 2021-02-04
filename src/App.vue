@@ -1,7 +1,7 @@
 <template>
-  <transition appear v-on:appear="firstEnter">
-  <div id="app" v-bind:class="[$route.name!=='Home' ? activeClass : 'reverse', '']">
-    <NavBar />
+  <!-- <transition appear v-on:appear="firstEnter">
+  <div id="app" class="col-12 container masthead text-white text-center" v-bind:class="[$route.name!=='Home' ? activeClass : 'reverse', '']">
+    <Nav />
     <div id="content" v-bind:class="[$route.name!=='Home' ? activeClass : 'center-content','']">
         <transition name="component-fade" mode="out-in">
           <router-view :language="$i18n.locale" :idProject="id"></router-view>
@@ -10,11 +10,33 @@
     <ButtonTop />
     <Footer />
   </div>
-  </transition>
+  </transition> -->
+  <!-- <section class="page-section mx-auto" id="app">
+    <div class="container">
+      <div class="row">
+        <div class="col col-lg-12">
+          <Nav />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col col-lg-12 wrapper">
+           <router-view :language="$i18n.locale" :idProject="id"></router-view>
+        </div>
+      </div>
+    </div>
+  </section> -->
+<div id="app">
+     <Nav />
+    <div  v-bind:class="[$route.name!=='Home' ? activeClass : 'wrap-banner-center', 'wrap-banner']">
+       <router-view :language="$i18n.locale" :idProject="id"></router-view>
+    </div>
+    <ButtonTop />
+    <Footer v-if="$route.name!=='Home'"/>
+  </div>
 </template>
 
 <script>
-import NavBar from '@/components/NavBar.vue'
+import Nav from '@/components/Nav.vue'
 import ButtonTop from '@/components/ButtonTop.vue'
 import Footer from '@/components/Footer.vue'
 import init from './assets/index'
@@ -23,7 +45,7 @@ import anime from 'animejs/lib/anime.es.js'
 export default {
   name: '',
   components: {
-    NavBar,
+    Nav,
     Footer,
     ButtonTop
   },
@@ -98,31 +120,40 @@ export default {
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
-
-html {
+*, :after, :before {
+  box-sizing: border-box;
+}
+html, body {
   height: 100%;
-  width: 100%;
 }
-body{
+body {
   margin: 0;
-  padding: 0;
-  min-height: 100%;
-  border: 0;
-  font-size: 100%;
-  font: inherit;
-  vertical-align: middle;
-  width: 100%;
-}
 
+}
 #app {
-  font-family: 'Roboto', Helvetica, Arial, sans-serif;
+  height: 100%;
+  font-family: Roboto, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: white;
+}
+
+.wrap-banner-center {
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-flex;
   display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+  height: 100% !important;
+  justify-content: center;
+}
+
+.wrap-banner {
+  display: -webkit-flex;
+  display: flex;
+  height: auto;
+  justify-content: center;
 }
 
 canvas {
@@ -134,15 +165,15 @@ canvas {
   height: 100%;
 }
 
-.reverse{
+/* .reverse{
   flex-direction: column-reverse !important;
-}
+} */
 
-.center-content {
+/* .center-content {
   width:100%;
   margin-top: 50vh;
   transform: translateY(-120%);
-}
+} */
 
 .component-fade-enter-active, .component-fade-leave-active {
   transition: opacity 0.8s ease;

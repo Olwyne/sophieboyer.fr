@@ -4,11 +4,17 @@ import router from './router'
 import VueI18n from 'vue-i18n'
 import VueSplide from '@splidejs/vue-splide'
 import { rtdbPlugin } from 'vuefire'
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 Vue.use(rtdbPlugin)
 Vue.config.productionTip = false
 Vue.use(VueI18n)
 Vue.use(VueSplide)
+Vue.use(BootstrapVue)
+Vue.use(IconsPlugin)
 
 // Set translation plugin
 function loadLocaleMessages () {

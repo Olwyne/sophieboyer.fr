@@ -1,12 +1,23 @@
 <template>
-    <footer v-if="$route.name!=='Home'" v-bind:class="[$route.name!=='Home' ? activeClass : 'footer-fixed']">
+    <!-- <footer v-if="$route.name!=='Home'" v-bind:class="[$route.name!=='Home' ? activeClass : 'footer-fixed']">
         <ul>
           <li><a href="https://www.linkedin.com/in/sophie-boyer/">LinkedIn</a></li>
           <li>
             <p>👋</p>
           </li>
         </ul>
-    </footer>
+    </footer> -->
+    <footer class="footer mt-auto py-3">
+  <div class="container">
+     <ul>
+          <li><a href="https://www.linkedin.com/in/sophie-boyer/">LinkedIn</a></li>
+          <li>
+            <p>👋</p>
+          </li>
+      </ul>
+  </div>
+</footer>
+
 </template>
 
 <script>
@@ -25,10 +36,6 @@ footer {
   margin-top : 10px;
   color: white;
   background-color: rgba(0, 0, 0,0.9);
-  padding: 18px;
-  display: flex;
-  width: 100%;
-  line-height: 1.3;
 }
 
 .footer-fixed {
