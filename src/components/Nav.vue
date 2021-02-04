@@ -76,7 +76,7 @@ a:hover {
     }
 }
 
-.padding-top{
+.padding-top a{
     padding-top: 0.3rem;
 }
 </style>

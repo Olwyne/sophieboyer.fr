@@ -1,5 +1,5 @@
 <template>
-  <div class="project">
+  <div class="project main-title">
     <h1>{{ $t("Title-Project") }}</h1>
     <div class="menu">
       <ButtonFilterMenu @click.native="filterProjects('all')" :text='$t("Menu-All")' />
@@ -20,7 +20,7 @@
 import ThumbProject from '@/components/ThumbProject.vue'
 import ButtonFilterMenu from '@/components/ButtonFilterMenu.vue'
 import { db } from '../config/firebase'
-import anime from 'animejs/lib/anime.es.js'
+// import anime from 'animejs/lib/anime.es.js'
 
 export default {
   name: 'Projects',
@@ -67,20 +67,20 @@ export default {
     },
     // Filter projects
     filterProjects (value) {
-      var self = this
-      anime({
-        targets: '.items .item',
-        opacity: [1, 0],
-        easing: 'easeInOutQuad',
-        duration: 500,
-        complete: function () {
-          if (value !== 'all') {
-            self.projectsList = self.backupProject.filter(item => item.type === value)
-          } else {
-            self.projectsList = self.backupProject
-          }
-        }
-      })
+      if (value !== 'all') {
+        this.projectsList = this.backupProject.filter(item => item.type === value)
+      } else {
+        this.projectsList = this.backupProject
+      }
+      // var self = this
+      // anime({
+      //   targets: '.items .item',
+      //   opacity: [1, 0],
+      //   easing: 'easeInOutQuad',
+      //   duration: 500,
+      //   complete: function () {
+      //   }
+      // })
     }
   }
 }
@@ -146,6 +146,10 @@ h2 {
 @media only screen and (max-width: 500px) {
   .item {
     width: 90% !important;
+  }
+
+  h1 {
+    font-size: 40px !important;
   }
 }
 
