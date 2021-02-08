@@ -22,6 +22,13 @@ export default {
     return {
       activeClass: String
     }
+  },
+  methods: {
+    // get last language
+    setLanguage () {
+      const parsed = JSON.stringify(this.$i18n.locale)
+      localStorage.setItem('language', parsed)
+    }
   }
 }
 </script>

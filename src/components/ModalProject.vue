@@ -4,7 +4,6 @@
       <h1>{{ project.name }}</h1>
       <h2>{{ project.date }} - {{ project.type }}</h2>
       <div class="container-img">
-        <!-- <img class="thumb" v-bind:src="project.images[1].url"> -->
         <splide @splide:mounted="updateArrow" :options="options" v-if="project.slide.length >0" ref="primary">
           <splide-slide v-for="(image) in project.slide" :key="image.name" >
             <img class="thumb" v-bind:src="image.url">
@@ -24,24 +23,10 @@
         </p>
       </div>
     </div>
-    <!-- <div class="other-project" v-if="projectsList.length!==0">
-      <h2>{{ $t("Title-OtherProject") }}</h2>
-      <div class="items">
-          <splide :options="optionsProjects">
-            <splide-slide v-for="item in projectsList" :key="item.id" >
-              <router-link class="item" @click.native="changeProject(item)" :to="{ name: 'Project', params: { project: item }, query: { project: item.id }}">
-                <ThumbProject :project="item"></ThumbProject>
-              </router-link>
-            </splide-slide>
-          </splide>
-      </div>
-    </div> -->
   </div>
 </template>
 
 <script>
-
-import { db } from '../config/firebase'
 import '@splidejs/splide/dist/css/themes/splide-default.min.css'
 
 export default {
@@ -54,8 +39,6 @@ export default {
   },
   data () {
     return {
-      projectsList: [],
-      backupProject: [],
       options: {
         type: 'fade',
         rewind: true,
@@ -69,50 +52,14 @@ export default {
   watch: {
     // Change language reset text
     language: function () {
-      this.projectsList = []
-      this.backupProject = []
-      this.mountedProject()
     }
   },
   mounted: function () {
-    this.projectsList = []
-    this.backupProject = []
-    this.mountedProject()
+
   },
   methods: {
     getTarget (id) {
       return `'modal-${id}'`
-    },
-    // Load project from firebase
-    mountedProject () {
-      var query = db.ref(this.language + '/projects').orderByChild('date')
-      const self = this
-      var project
-      query.once('value').then(function (snapshot) {
-        snapshot.forEach(function (childSnapshot) {
-          project = childSnapshot.val()
-          project.id = childSnapshot.key
-          self.backupProject.unshift(project)
-        })
-      })
-      this.filterProjects('all')
-    },
-    // Filter projects
-    filterProjects (value) {
-      if (value !== 'all') {
-        this.projectsList = this.backupProject.filter(item => item.type === value)
-      } else {
-        this.projectsList = this.backupProject
-      }
-      // var self = this
-      // anime({
-      //   targets: '.items .item',
-      //   opacity: [1, 0],
-      //   easing: 'easeInOutQuad',
-      //   duration: 500,
-      //   complete: function () {
-      //   }
-      // })
     },
     // Update slider
     updateArrow () {
