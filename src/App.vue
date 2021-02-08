@@ -1,42 +1,16 @@
 <template>
-  <!-- <transition appear v-on:appear="firstEnter">
-  <div id="app" class="col-12 container masthead text-white text-center" v-bind:class="[$route.name!=='Home' ? activeClass : 'reverse', '']">
-    <Nav />
-    <div id="content" v-bind:class="[$route.name!=='Home' ? activeClass : 'center-content','']">
-        <transition name="component-fade" mode="out-in">
-          <router-view :language="$i18n.locale" :idProject="id"></router-view>
-        </transition>
-    </div>
-    <ButtonTop />
-    <Footer />
-  </div>
-  </transition> -->
-  <!-- <section class="page-section mx-auto" id="app">
-    <div class="container">
-      <div class="row">
-        <div class="col col-lg-12">
-          <Nav />
-        </div>
-      </div>
-      <div class="row">
-        <div class="col col-lg-12 wrapper">
-           <router-view :language="$i18n.locale" :idProject="id"></router-view>
-        </div>
-      </div>
-    </div>
-  </section> -->
-<transition appear v-on:appear="firstEnter">
-  <div id="app">
-      <Nav />
+  <transition appear v-on:appear="firstEnter">
+    <div id="app">
+        <Nav />
         <div  v-bind:class="[$route.name!=='Home' ? activeClass : 'wrap-banner-center', 'wrap-banner']">
-           <transition name="component-fade" mode="out-in">
+          <transition name="component-fade" mode="out-in">
               <router-view :language="$i18n.locale" :idProject="id"></router-view>
           </transition>
         </div>
-      <ButtonTop />
-      <Footer v-if="$route.name!=='Home'"/>
-    </div>
-</transition>
+        <ButtonTop />
+        <Footer v-if="$route.name!=='Home'"/>
+      </div>
+  </transition>
 </template>
 
 <script>

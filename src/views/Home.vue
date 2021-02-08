@@ -6,33 +6,33 @@
 </template>
 
 <script>
-// import anime from 'animejs/lib/anime.es.js'
+import anime from 'animejs/lib/anime.es.js'
 
 export default {
   name: 'Home',
   components: {
+  },
+  mounted: function () {
+    anime({
+      targets: '.main-title h2',
+      opacity: ['0%', '100%'],
+      easing: 'easeInOutQuad',
+      delay: 1000
+    })
+    const title = document.querySelector('.main-title h1')
+    title.innerHTML = title.innerText.split('').map(function (char) {
+      return '<span>' + char + '</span>'
+    }).join('')
+    anime.timeline({ loop: false }).add({
+      delay: 2000
+    }).add({
+      targets: '.main-title h1 span',
+      opacity: [0, 1],
+      delay: function (element, i) {
+        return i * 50
+      }
+    })
   }
-  // mounted: function () {
-  //   anime({
-  //     targets: '.home h2',
-  //     opacity: ['0%', '100%'],
-  //     easing: 'easeInOutQuad',
-  //     delay: 1000
-  //   })
-  //   const title = document.querySelector('.home h1')
-  //   title.innerHTML = title.innerText.split('').map(function (char) {
-  //     return '<span>' + char + '</span>'
-  //   }).join('')
-  //   anime.timeline({ loop: false }).add({
-  //     delay: 2000
-  //   }).add({
-  //     targets: '.home h1 span',
-  //     opacity: [0, 1],
-  //     delay: function (element, i) {
-  //       return i * 50
-  //     }
-  //   })
-  // }
 }
 </script>
 
