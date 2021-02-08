@@ -3,7 +3,14 @@
     <div class="main-project">
       <h1>{{ project.name }}</h1>
       <h2>{{ project.date }} - {{ project.type }}</h2>
-          <img class="thumb" v-bind:src="project.images[1].url">
+      <div class="container-img">
+        <!-- <img class="thumb" v-bind:src="project.images[1].url"> -->
+        <splide @splide:mounted="updateArrow" :options="options" v-if="project.slide.length >0" ref="primary">
+          <splide-slide v-for="(image) in project.slide" :key="image.name" >
+            <img class="thumb" v-bind:src="image.url">
+          </splide-slide>
+        </splide>
+      </div>
       <div class="container-about">
         <p class="description">{{ project.description }}</p>
         <p class="about">
@@ -35,7 +42,7 @@
 <script>
 
 import { db } from '../config/firebase'
-// import anime from 'animejs/lib/anime.es.js'
+import '@splidejs/splide/dist/css/themes/splide-default.min.css'
 
 export default {
   name: 'Projects',
@@ -48,7 +55,15 @@ export default {
   data () {
     return {
       projectsList: [],
-      backupProject: []
+      backupProject: [],
+      options: {
+        type: 'fade',
+        rewind: true,
+        width: 800,
+        arrows: true,
+        pagination: true,
+        lazyLoad: 'nearby'
+      }
     }
   },
   watch: {
@@ -98,6 +113,22 @@ export default {
       //   complete: function () {
       //   }
       // })
+    },
+    // Update slider
+    updateArrow () {
+      if (this.project.slide.length <= 1) {
+        this.options.arrows = false
+        this.options.pagination = false
+        document.getElementsByClassName('splide__arrow')[0].style.display = 'none'
+        document.getElementsByClassName('splide__arrow')[1].style.display = 'none'
+        document.getElementsByClassName('splide__pagination__page')[0].style.display = 'none'
+      } else {
+        this.options.arrows = true
+        this.options.pagination = true
+        document.getElementsByClassName('splide__arrow')[0].style.display = 'block'
+        document.getElementsByClassName('splide__arrow')[1].style.display = 'block'
+        document.getElementsByClassName('splide__pagination__page')[0].style.display = 'block'
+      }
     }
   }
 }
@@ -127,12 +158,13 @@ export default {
 h1 {
   letter-spacing: 15px;
   font-weight: 100;
-  font-size: 80px;
+  font-size: 50px;
   color: white;
   text-transform: uppercase;
   margin : 0;
   width: 90%;
   margin: auto;
+  text-align: center;
 }
 
 h2 {
@@ -140,6 +172,7 @@ h2 {
   color: white;
   font-weight: 100;
   text-transform: uppercase;
+  text-align: center;
 }
 
 .description {
@@ -258,4 +291,10 @@ h2 {
   text-decoration: none;
   font-size: 14px;
 }
+
+.container-img{
+  width: 100%;
+  text-align: center;
+}
+
 </style>

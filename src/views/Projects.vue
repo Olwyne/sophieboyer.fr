@@ -14,7 +14,7 @@
       </router-link> -->
       <div class="item" v-for="(project, index) in projectsList" :key="project.name">
         <b-button v-bind:id="index" @click="$bvModal.show(getTarget(index))"><ThumbProject :project="project" :index="index"></ThumbProject></b-button>
-         <b-modal v-bind:id="getTarget(index)" hide-footer  size="xl" header-bg-variant="dark"
+         <b-modal v-bind:id="getTarget(index)" hide-footer  size="xl" no-stacking header-bg-variant="dark"
       header-text-variant="light"
       body-bg-variant="dark"
       body-text-variant="light"
@@ -75,6 +75,7 @@ export default {
         snapshot.forEach(function (childSnapshot) {
           project = childSnapshot.val()
           project.id = childSnapshot.key
+          project.slide = project.images.filter(item => item !== null).filter(item => item !== 'empty' && item.name !== 'banner')
           self.backupProject.unshift(project)
         })
       })
@@ -179,5 +180,18 @@ h2 {
 .slide-in-enter-active {
     transition: all .6s ease;
     transition-delay: calc( .1s * var(--i) );
+}
+
+.bg-dark {
+    background-color: rgba(0, 0, 0,0.5) !important;
+    border: white 1px solid;
+}
+
+.btn-secondary:focus, .btn-secondary.focus{
+  box-shadow: 0 0 0 0rem rgb(0 0 0 / 0%) !important;
+}
+
+.modal-header {
+  border-bottom: 0px solid transparent !important;
 }
 </style>
