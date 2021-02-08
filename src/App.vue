@@ -154,9 +154,10 @@ canvas {
 } */
 
 .component-fade-enter-active, .component-fade-leave-active {
-  transition: opacity 0.8s ease;
+  transition: all 0.8s ease;
 }
 .component-fade-enter, .component-fade-leave-to {
   opacity: 0;
+  transform: translateX(2em);
 }
 </style>
