@@ -218,10 +218,21 @@ h2 {
   margin: auto;
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 993px) {
+  h1 {
+     font-size: 25px;
+  }
+  h2 {
+     font-size: 18px;
+  }
   .container-about {
     display: block;
-    font-size: 20px;
+    font-size: 15px;
+    width: auto;
+  }
+  .about{}
+  .splide .splide__list{
+    width: auto !important;
   }
 }
 

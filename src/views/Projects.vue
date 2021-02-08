@@ -162,9 +162,10 @@ h2 {
   justify-content: center;
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 993px) {
   .item {
-    width: 90% !important;
+    width: 100% !important;
+    margin: 0  !important;
   }
 
   h1 {
