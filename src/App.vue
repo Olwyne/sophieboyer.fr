@@ -25,14 +25,18 @@
       </div>
     </div>
   </section> -->
-<div id="app">
-     <Nav />
-    <div  v-bind:class="[$route.name!=='Home' ? activeClass : 'wrap-banner-center', 'wrap-banner']">
-       <router-view :language="$i18n.locale" :idProject="id"></router-view>
+<transition appear v-on:appear="firstEnter">
+  <div id="app">
+      <Nav />
+        <div  v-bind:class="[$route.name!=='Home' ? activeClass : 'wrap-banner-center', 'wrap-banner']">
+           <transition name="component-fade" mode="out-in">
+              <router-view :language="$i18n.locale" :idProject="id"></router-view>
+          </transition>
+        </div>
+      <ButtonTop />
+      <Footer v-if="$route.name!=='Home'"/>
     </div>
-    <ButtonTop />
-    <Footer v-if="$route.name!=='Home'"/>
-  </div>
+</transition>
 </template>
 
 <script>
@@ -101,18 +105,18 @@ export default {
     // Animation appear website
     firstEnter (el, done) {
       anime({
-        targets: '#content',
+        targets: '#app',
         easing: 'easeInOutSine',
         opacity: ['0%', '100%'],
         duration: 2000
       })
-      anime({
-        targets: '.menu',
-        opacity: ['0%', '100%'],
-        easing: 'easeInOutQuad',
-        delay: 1000,
-        duration: 2000
-      })
+      // anime({
+      //   targets: '.menu',
+      //   opacity: ['0%', '100%'],
+      //   easing: 'easeInOutQuad',
+      //   delay: 1000,
+      //   duration: 2000
+      // })
     }
   }
 }

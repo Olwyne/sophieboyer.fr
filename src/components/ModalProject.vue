@@ -142,7 +142,7 @@ h2 {
 
 .container-about{
   max-width: 800px;
-  width: 800px;
+  width: 100%;
   margin: auto;
   display: flex;
   line-height: 2;
