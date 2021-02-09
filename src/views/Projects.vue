@@ -73,10 +73,12 @@ export default {
       var project
       query.once('value').then(function (snapshot) {
         snapshot.forEach(function (childSnapshot) {
-          project = childSnapshot.val()
-          project.id = childSnapshot.key
-          project.slide = project.images.filter(item => item !== null).filter(item => item !== 'empty' && item.name !== 'banner')
-          self.backupProject.unshift(project)
+          if (childSnapshot.val().display === 1) {
+            project = childSnapshot.val()
+            project.id = childSnapshot.key
+            project.slide = project.images.filter(item => item !== null).filter(item => item !== 'empty' && item.name !== 'banner')
+            self.backupProject.unshift(project)
+          }
         })
       })
       this.filterProjects('all')
