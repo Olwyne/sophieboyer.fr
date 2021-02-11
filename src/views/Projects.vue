@@ -1,5 +1,5 @@
 <template>
-  <div class="project">
+  <div class="project main-title">
     <h1>{{ $t("Title-Project") }}</h1>
     <div class="menu">
       <ButtonFilterMenu @click.native="filterProjects('all')" :text='$t("Menu-All")' />
@@ -9,24 +9,36 @@
       <ButtonFilterMenu @click.native="filterProjects('audiovisuel')" :text='$t("Menu-Audiovisual")' />
     </div>
     <transition-group appear name="slide-in" class="items" tag="div" >
-      <router-link class="item" v-for="(project, index) in projectsList" :key="project.name"  :to="{ name: 'Project', params: { project: project }, query: { project: project.id }}">
+      <!-- <router-link class="item" v-for="(project, index) in projectsList" :key="project.name"  :to="{ name: 'Project', params: { project: project }, query: { project: project.id }}">
           <ThumbProject :project="project" :index="index"></ThumbProject>
-      </router-link>
+      </router-link> -->
+      <div class="item" v-for="(project, index) in projectsList" :key="project.name">
+        <b-button v-bind:id="index" @click="$bvModal.show(getTarget(index))"><ThumbProject :project="project" :index="index"></ThumbProject></b-button>
+         <b-modal v-bind:id="getTarget(index)" hide-footer  size="xl" no-stacking header-bg-variant="dark"
+      header-text-variant="light"
+      body-bg-variant="dark"
+      body-text-variant="light"
+     >
+            <ModalProject :project="project" :index="index" />
+        </b-modal>
+      </div>
     </transition-group>
   </div>
 </template>
 
 <script>
+import ModalProject from '@/components/ModalProject.vue'
 import ThumbProject from '@/components/ThumbProject.vue'
 import ButtonFilterMenu from '@/components/ButtonFilterMenu.vue'
 import { db } from '../config/firebase'
-import anime from 'animejs/lib/anime.es.js'
+// import anime from 'animejs/lib/anime.es.js'
 
 export default {
   name: 'Projects',
   components: {
     ThumbProject,
-    ButtonFilterMenu
+    ButtonFilterMenu,
+    ModalProject
   },
   props: {
     language: null
@@ -51,6 +63,9 @@ export default {
     this.mountedProject()
   },
   methods: {
+    getTarget (id) {
+      return `'modal-${id}'`
+    },
     // Load project from firebase
     mountedProject () {
       var query = db.ref(this.language + '/projects').orderByChild('date')
@@ -58,29 +73,32 @@ export default {
       var project
       query.once('value').then(function (snapshot) {
         snapshot.forEach(function (childSnapshot) {
-          project = childSnapshot.val()
-          project.id = childSnapshot.key
-          self.backupProject.unshift(project)
+          if (childSnapshot.val().display === 1) {
+            project = childSnapshot.val()
+            project.id = childSnapshot.key
+            project.slide = project.images.filter(item => item !== null).filter(item => item !== 'empty' && item.name !== 'banner')
+            self.backupProject.unshift(project)
+          }
         })
       })
       this.filterProjects('all')
     },
     // Filter projects
     filterProjects (value) {
-      var self = this
-      anime({
-        targets: '.items .item',
-        opacity: [1, 0],
-        easing: 'easeInOutQuad',
-        duration: 500,
-        complete: function () {
-          if (value !== 'all') {
-            self.projectsList = self.backupProject.filter(item => item.type === value)
-          } else {
-            self.projectsList = self.backupProject
-          }
-        }
-      })
+      if (value !== 'all') {
+        this.projectsList = this.backupProject.filter(item => item.type === value)
+      } else {
+        this.projectsList = this.backupProject
+      }
+      // var self = this
+      // anime({
+      //   targets: '.items .item',
+      //   opacity: [1, 0],
+      //   easing: 'easeInOutQuad',
+      //   duration: 500,
+      //   complete: function () {
+      //   }
+      // })
     }
   }
 }
@@ -102,7 +120,10 @@ h2 {
   font-weight: 100;
   text-transform: uppercase;
 }
-
+.btn-secondary{
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
 .items {
   width: 80%;
   margin: auto;
@@ -143,9 +164,14 @@ h2 {
   justify-content: center;
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 993px) {
   .item {
-    width: 90% !important;
+    width: 100% !important;
+    margin: 0  !important;
+  }
+
+  h1 {
+    font-size: 40px !important;
   }
 }
 
@@ -157,5 +183,18 @@ h2 {
 .slide-in-enter-active {
     transition: all .6s ease;
     transition-delay: calc( .1s * var(--i) );
+}
+
+.bg-dark {
+    background-color: rgba(0, 0, 0,0.5) !important;
+    border: white 1px solid;
+}
+
+.btn-secondary:focus, .btn-secondary.focus{
+  box-shadow: 0 0 0 0rem rgb(0 0 0 / 0%) !important;
+}
+
+.modal-header {
+  border-bottom: 0px solid transparent !important;
 }
 </style>

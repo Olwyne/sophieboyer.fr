@@ -2,8 +2,10 @@
   <div class="about">
     <h1>{{ $t("Title-AboutMe") }}</h1>
     <div class="container">
-     <TimeLine :experiencesList="experiencesList" :title="$t('About-experience')" class="column"></TimeLine>
-     <TimeLine :experiencesList="educationsList" :title="$t('About-education')" class="column"></TimeLine>
+      <div class="row">
+        <TimeLine :experiencesList="experiencesList" :title="$t('About-experience')" class="col col-md-6"></TimeLine>
+        <TimeLine :experiencesList="educationsList" :title="$t('About-education')" class="col col-md-6"></TimeLine>
+     </div>
     </div>
   </div>
 </template>
@@ -94,7 +96,7 @@ h2{
 }
 
 .column{
-  width: 40%;
+  width: 50%;
 }
 
 @media only screen and (max-width: 500px) {
@@ -108,6 +110,9 @@ h2{
   }
   .column{
     width: 100% !important;
+  }
+  h1 {
+    font-size: 40px !important;
   }
 }
 </style>

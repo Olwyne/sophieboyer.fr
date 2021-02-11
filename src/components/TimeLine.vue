@@ -41,7 +41,7 @@ export default {
 
 <style scoped>
 .title{
-    padding-left: 2em;
+    margin: auto;
     font-size: 30px;
     color: white;
     font-weight: 100;
@@ -51,11 +51,11 @@ export default {
 .item {
   display: flex;
   max-width: 1000px;
-  margin: 0 auto;
+  margin: auto;
 }
 
 .image {
-    padding: 1em 2em;
+    padding: 1em 1em 1em 0em;
 }
 .image > div {
     position: relative;

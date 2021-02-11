@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="main-title">
     <h1>Sophie Boyer</h1>
     <h2>{{ $t("Presentation") }}</h2>
   </div>
@@ -14,19 +14,19 @@ export default {
   },
   mounted: function () {
     anime({
-      targets: '.home h2',
+      targets: '.main-title h2',
       opacity: ['0%', '100%'],
       easing: 'easeInOutQuad',
       delay: 1000
     })
-    const title = document.querySelector('.home h1')
+    const title = document.querySelector('.main-title h1')
     title.innerHTML = title.innerText.split('').map(function (char) {
       return '<span>' + char + '</span>'
     }).join('')
     anime.timeline({ loop: false }).add({
       delay: 2000
     }).add({
-      targets: '.home h1 span',
+      targets: '.main-title h1 span',
       opacity: [0, 1],
       delay: function (element, i) {
         return i * 50
@@ -42,7 +42,6 @@ h1{
   font-weight: 100;
   font-size: 80px;
   color: white;
-  font-family: Roboto, Helvetica, Arial, sans-serif;
   text-transform: uppercase;
 }
 
@@ -51,6 +50,10 @@ h2{
   color: white;
   font-weight: 100;
   text-transform: uppercase;
-  opacity: 0;
+  opacity: 1;
+}
+
+.main-title {
+  color: #fff;
 }
 </style>

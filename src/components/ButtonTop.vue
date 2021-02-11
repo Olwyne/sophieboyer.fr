@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import anime from 'animejs/lib/anime.es.js'
 
 export default {
   name: 'ButtonTop',
@@ -23,7 +24,12 @@ export default {
   },
   methods: {
     goTop () {
-      window.scrollTo(0, 0)
+      anime({
+        targets: window.document.scrollingElement,
+        scrollTop: 0,
+        duration: 500,
+        easing: 'easeInOutQuad'
+      })
     },
     // Show button when user scrolls
     handleScroll () {
@@ -44,7 +50,7 @@ export default {
   border: 3px solid white;
   border-radius: 50px;
   font-size: 25px;
-  padding: 0 10px 5px 10px;
+  padding: 0 15px 5px 15px;
   -webkit-transition: all 0.5s ease;
   transition: all 0.5s ease;
   -webkit-transform: translate(0, 0);
