@@ -11,7 +11,7 @@
         </splide>
       </div>
       <div class="container-about">
-        <p class="description">{{ project.description }}</p>
+        <p class="description" v-html="project.description"></p>
         <p class="about">
           {{ $t("Project-software") }} : {{ project.software }}
           <br>
@@ -19,7 +19,7 @@
           <br>
           {{ $t("Project-job") }} : {{ project.job }}
           <br>
-          <button class="btn draw-border" v-if="project.link"><a v-bind:href="project.link">{{ $t("Project-link") }}</a></button>
+          <button class="btn draw-border" v-if="project.link !='/'"><a v-bind:href="project.link" target="_blank">{{ $t("Project-link") }}</a></button>
         </p>
       </div>
     </div>
