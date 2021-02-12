@@ -13,7 +13,7 @@
             <div class="details">
                 <div>
                     <h1>{{ experience.job }}</h1>
-                    <p>{{ experience.description }}</p>
+                    <p v-html="experience.description"></p>
                     <p class="italic">{{ experience.location }}</p>
                 </div>
             </div>
@@ -107,5 +107,6 @@ flex-grow: 1;
 .italic {
    font-style: italic;
    font-size: 14px;
+   margin-bottom: 0;
 }
 </style>
