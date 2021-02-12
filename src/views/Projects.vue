@@ -13,13 +13,13 @@
           <ThumbProject :project="project" :index="index"></ThumbProject>
       </router-link> -->
       <div class="item" v-for="(project, index) in projectsList" :key="project.name">
-        <b-button v-bind:id="index" @click="$bvModal.show(getTarget(index))"><ThumbProject :project="project" :index="index"></ThumbProject></b-button>
+        <b-button v-bind:id="index" @click="$bvModal.show(getTarget(index))"><ThumbProject :project="project" :index="index" ></ThumbProject></b-button>
          <b-modal v-bind:id="getTarget(index)" hide-footer  size="xl" no-stacking header-bg-variant="dark"
       header-text-variant="light"
       body-bg-variant="dark"
       body-text-variant="light"
      >
-            <ModalProject :project="project" :index="index" />
+            <ModalProject :project="project" :index="index" :language="language" />
         </b-modal>
       </div>
     </transition-group>

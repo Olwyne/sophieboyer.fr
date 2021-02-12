@@ -81,6 +81,7 @@ h1{
   color: white;
   text-transform: uppercase;
   margin-top: 100px;
+  margin-bottom: 50px;
 }
 
 h2{
@@ -93,6 +94,7 @@ h2{
 .container{
   display: flex;
   justify-content: center;
+  min-width: 90%;
 }
 
 .column{

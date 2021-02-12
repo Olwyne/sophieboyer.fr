@@ -1,7 +1,7 @@
 <template>
     <div class="thumb-project">
       <div class="item" @mouseover="animeEnter(project.id)"  @mouseleave="animeLeave(project.id)">
-        <img class="thumb" alt="thumb" v-bind:src="image" />
+        <img class="thumb" alt="thumb" v-bind:src="image" v-bind:class="'img'+ project.id" />
         <p v-bind:class="project.id" class="thumb-title">{{project.name}}</p>
       </div>
     </div>
@@ -40,6 +40,13 @@ export default {
         easing: 'easeInOutQuad',
         duration: 500
       })
+      var img = '.img' + name
+      anime({
+        targets: img,
+        scale: [1, 1.3],
+        easing: 'easeInOutQuad',
+        duration: 500
+      })
     },
     // Animation
     animeLeave (name) {
@@ -47,6 +54,13 @@ export default {
       anime({
         targets: el,
         opacity: [1, 0],
+        easing: 'easeInOutQuad',
+        duration: 500
+      })
+      var img = '.img' + name
+      anime({
+        targets: img,
+        scale: [1.3, 1],
         easing: 'easeInOutQuad',
         duration: 500
       })
@@ -85,6 +99,7 @@ h2 {
   align-items: baseline;
   position: relative;
   height: auto;
+  overflow: hidden;
 }
 
 .thumb {
@@ -92,7 +107,7 @@ h2 {
 }
 
 .thumb-title{
-  background-color: rgba(39%, 35%, 49%,0.8);
+  background-color: rgba(0%, 0%, 0%,0.9);
   opacity: 0;
   color : white;
   text-decoration: none;
