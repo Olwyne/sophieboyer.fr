@@ -125,6 +125,7 @@ body {
   display: flex;
   height: 100% !important;
   justify-content: center;
+  min-height: 100vh;
 }
 
 .wrap-banner {
@@ -132,6 +133,7 @@ body {
   display: flex;
   height: auto;
   justify-content: center;
+  min-height: 100vh;
 }
 
 canvas {

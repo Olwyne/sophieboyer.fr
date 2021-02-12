@@ -46,8 +46,9 @@ export default {
 <style scoped>
 .btn-bg.bg-1 .btn-1 span {
   color: black;
-  background: rgb(99, 90, 126);
-  border: 3px solid white;
+  background: white;
+  border: 3px solid black;
+  box-shadow: inset 0 0 0 4px white;
   border-radius: 50px;
   font-size: 25px;
   padding: 0 15px 5px 15px;
@@ -64,15 +65,15 @@ export default {
   color: black;
 }
  .btn-bg.bg-1 .btn-1 span:hover {
-  background: white;
-  color: black;
-  border: 3px solid rgb(99, 90, 126);
+  background: black;
+  color: white;
+  border: 3px solid black;
   border-radius: 50px;
   -webkit-transition: all 0.35s ease;
   transition: all 0.35s ease;
 }
  .btn-bg.bg-1 .btn-1 span:hover >a {
-  color:white;
+  color:black;
   -webkit-transition: all 0.35s ease;
   transition: all 0.35s ease;
 }

@@ -65,16 +65,17 @@ export default {
 
 img {
     border-radius: 50%;
-    height: 5em;
-    border: 0.35em solid rgb(99, 90, 126);
-    background: rgb(99, 90, 126);
+    height: 4em;
+    border: 0.1em solid white;
+    background: black;
 }
 span {
     display: block;
     clear: both;
-    padding: 0.25em 0;
+    padding: 0.25em;
     margin: 0.5em 0;
-    background: rgb(99, 90, 126);
+    background: black;
+    border: 0.1em solid white;
 }
 
 .details {
@@ -82,8 +83,8 @@ position: relative;
 flex-grow: 1;
 }
 .details > div {
-    border: 1px solid rgb(99, 90, 126);
-    color :rgb(99, 90, 126);
+    border: 1px solid white;
+    color :white;
     background: rgba(0,0,0,0.8);
     border-radius: 0.5em;
     padding: 1.5em;

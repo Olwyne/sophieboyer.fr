@@ -35,7 +35,8 @@ export default {
 
   },
   props: {
-    project: null
+    project: null,
+    language: null
   },
   data () {
     return {
@@ -55,7 +56,15 @@ export default {
     }
   },
   mounted: function () {
-
+    if (this.project.type === 'graphisme' && this.language === 'en') {
+      this.project.type = 'Design'
+    } else if (this.project.type === 'jeux video' && this.language === 'en') {
+      this.project.type = 'Video Games'
+    } else if (this.project.type === 'jeux video' && this.language === 'fr') {
+      this.project.type = 'Jeux Vidéo'
+    } else if (this.project.type === 'audiovisuel' && this.language === 'en') {
+      this.project.type = 'Audiovisual'
+    }
   },
   methods: {
     getTarget (id) {
@@ -184,12 +193,11 @@ h2 {
 }
 
 .draw-border {
-  box-shadow: inset 0 0 0 4px #635A7E;
-  color:#635A7E;
+  box-shadow: inset 0 0 0 2px white;
+  color:white;
   transition: color 0.25s 0.0833333333s;
   position: relative;
 }
-
 .draw-border::before, .draw-border::after {
   border: 0 solid transparent;
   box-sizing: border-box;
@@ -201,6 +209,7 @@ h2 {
   bottom: 0;
   right: 0;
 }
+
 .draw-border::before {
   border-bottom-width: 4px;
   border-left-width: 4px;
@@ -212,11 +221,6 @@ h2 {
 .draw-border:hover {
   color:white;
 }
-
-.draw-border:hover a{
-  color:white;
-}
-
 .draw-border:hover::before, .draw-border:hover::after {
   border-color: white;
   transition: border-color 0s, width 0.25s, height 0.25s;
@@ -235,17 +239,17 @@ h2 {
   border: none;
   cursor: pointer;
   line-height: 1.5;
-  font: 700 1.2rem "Roboto Slab", sans-serif;
-  padding: 1em 1em;
+  padding: 1em 2em;
   letter-spacing: 0.05rem;
-  margin: 10px;
+  margin: 10px 0;
 }
 .btn:focus {
-  outline: 2px dotted #635A7E;
+  color:white;
+  border-color: white;
 }
 
 .btn a {
-  color: #635A7E;
+  color: white;
   text-decoration: none;
   font-size: 14px;
 }
